@@ -1,0 +1,107 @@
+xkb_keymap  {
+
+xkb_keycodes { include "evdev+aliases(qwerty)" };
+xkb_types { include "complete" };
+xkb_compat { include "complete" };
+xkb_geometry { include "pc(pc105)" };
+
+partial hidden alphanumeric_keys modifier_keys
+xkb_symbols "basic" {
+  
+  include "pc+us+inet(evdev)"
+    name[Group1]= "roman_dvorak/cz";
+
+    key.type = "FOUR_LEVEL";
+
+    // cislicka a cestina
+    key <AE01>  { [ plus,    1,           exclam] };
+    key <AE02>  { [ ecaron,  2,           at] };
+    key <AE03>  { [ scaron,  3,           numbersign] };
+    key <AE04>  { [ ccaron,  4,           dollar] };
+    key <AE05>  { [ rcaron,  5,           percent] };
+    key <AE06>  { [ zcaron,  6,           asciicircum] };
+    key <AE07>  { [ yacute,  7,           ampersand] };
+    key <AE08>  { [ aacute,  8,           asterisk] };
+    key <AE09>  { [ iacute,  9,           parenleft] };
+    key <AE10>  { [ eacute,  0,           parenright] };
+
+    // dvorak hlavni klavesy
+    key <AD01> {	[  apostrophe,	quotedbl	] };
+    key <AD02> {	[	comma,	less		] };
+    key <AD03> {	[      period,	greater		] };
+    key <AD04> {	[	    p,	P		]	};
+    key <AD05> {	[	    y,	Y		]	};
+    key <AD06> {	[	    f,	F		]	};
+    key <AD07> {	[	    g,	G		]	};
+    key <AD08> {	[	    c,	C		]	};
+    key <AD09> {	[	    r,	R		]	};
+    key <AD10> {	[	    l,	L		]	};
+
+    key <AC01> {	[	    a,	A, braceleft 		]	};
+    key <AC02> {	[	    o,	O, braceright		]	};
+    key <AC03> {	[	    e,	E, bracketleft		]	};
+    key <AC04> {	[	    u,	U, bracketright		]	};
+    key <AC05> {	[	    i,	I		]	};
+    key <AC06> {	[	    d,	D		]	};
+    key <AC07> {	[	    h,	H, backslash, bar		]	};
+    key <AC08> {	[	    t,	T, slash ]	};
+    key <AC09> {	[	    n,	N, equal, plus		]	};
+    key <AC10> {	[	    s,	S		]	};
+
+    key <AB01> {	[   semicolon,	colon 		] };
+    key <AB02> {	[	    q,	Q		]	};
+    key <AB03> {	[	    j,	J		]	};
+    key <AB04> {	[	    k,	K		]	};
+    key <AB05> {	[	    x,	X		]	};
+    key <AB06> {	[	    b,	B		]	};
+    key <AB07> {	[	    m,	M		]	};
+    key <AB08> {	[	    w,	W		]	};
+    key <AB09> {	[	    v,	V		]	};
+    key <AB10> {	[	    z,	Z		]	};
+
+    // specialni klavesy
+    key <SPCE> {	[ 	 space			]	};
+    key <RTRN> {	[ Return			]	};
+    key <CAPS> {	[	Caps_Lock		]	};
+    key <TAB>  {	[ 	  Tab,	ISO_Left_Tab	]	};
+    key <ESC>  {	[ Escape			]	};
+    key <TLDE> {	[       grave,	asciitilde	] };
+    key <BKSP> {
+        type="CTRL+ALT",
+        symbols[Group1]= [ BackSpace ]
+    };
+    key <LFSH> {	[	Shift_L			]	};
+    key <RTSH> {	[	Shift_R			]	};
+    key <BKSL> {	[   backslash,	bar		]	};
+    key <LCTL> {	[ 	 Control_L		]	};
+    key <RCTL> {	[ 	 Control_R		]	};
+    key <LEFT> {	[ Left				]	};
+    key <RGHT> {	[ Right				]	};
+    key <UP>   {	[ Up				]	};
+    key <DOWN> {	[ Down				]	};
+
+    
+
+    // specialni symboly
+    key <AD11> {	[	uacute,	question	]	};
+    key <AD12> {	[	equal,	plus		]	};
+    key <AE11>  { [ uring,   section,  EuroSign] };
+    key <AE12>  { type = "TWO_LEVEL", [ dead_acute, dead_caron] };
+    key <AC11> { [ minus, underscore ] };
+
+
+    key <LWIN>  { type = "ONE_LEVEL", [ Meta_L ] };
+    key <RWIN>  { type = "ONE_LEVEL", [ Meta_R ] };
+
+    key <RALT> { type = "TWO_LEVEL", [ ISO_Level3_Shift, ISO_Level3_Shift ] };
+    key <LALT> { type = "TWO_LEVEL", [ Alt_L, Meta_L ] };
+
+//    modifier_map Mod3   { <RALT> };
+//    modifier_map Shift  { Shift_L };
+//    modifier_map Lock   { Caps_Lock };
+//    modifier_map Control { Control_L };
+
+};
+
+};
+
