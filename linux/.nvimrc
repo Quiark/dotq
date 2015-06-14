@@ -6,24 +6,30 @@ Plug 'tpope/vim-sensible'
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vim-easy-align'
 
-" Group dependencies, vim-snippets depends on ultisnips
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
 " Using git URL
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
-" Plugin options
-Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+Plug 'https://github.com/Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
+Plug 'ujihisa/unite-colorscheme'
+Plug 'osyo-manga/unite-filetype'
+Plug 'osyo-manga/unite-quickfix'
+Plug 'nielsmadan/harlequin'
+Plug 'bling/vim-airline'
+Plug 'tsukkee/unite-tag'
+Plug 'flazz/vim-colorschemes'
+
+
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
-" Unmanaged plugin (manually installed and updated)
-Plug '~/my-prototype-plugin'
 
 call plug#end()
 
 
+" Neovim only
+tnoremap <Esc> <C-\><C-n>
 
 
 set t_vb=
@@ -157,4 +163,18 @@ map ,t <C-]>
 
 map ,<space> :tn<CR>
 map ,<bs> :tp<CR>
+
+
+" Unite {{{1
+
+let g:unite_source_grep_command = 'ack'
+let g:unite_source_grep_default_opts = '--no-heading --no-color -H'
+let g:unite_source_grep_recursive_opt = ''
+"let g:unite_source_rec_async_command = 'notepad'
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+map ,a :Unite -start-insert grep:.<CR>
+map ,p :Unite file -start-insert<CR>
+map ,b :Unite buffer -start-insert<CR>
+map ,n :Unite tag -start-insert<CR>
 
