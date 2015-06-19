@@ -18,6 +18,12 @@ Plug 'nielsmadan/harlequin'
 Plug 'bling/vim-airline'
 Plug 'tsukkee/unite-tag'
 Plug 'flazz/vim-colorschemes'
+Plug 'scrooloose/syntastic'
+Plug 'fsharp/vim-fsharp', {
+      \ 'for': 'fsharp',
+      \ 'do':  'make fsautocomplete',
+      \}
+Plug 'ervandew/supertab'
 
 
 
