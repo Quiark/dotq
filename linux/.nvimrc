@@ -24,6 +24,7 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 Plug 'ervandew/supertab'
+Plug 'dag/vim-fish'
 
 
 
