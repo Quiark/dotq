@@ -25,6 +25,7 @@ Plug 'fsharp/vim-fsharp', {
       \}
 Plug 'ervandew/supertab'
 Plug 'dag/vim-fish'
+Plug 'tomlion/vim-solidity'
 
 
 

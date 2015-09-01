@@ -66,6 +66,10 @@ function! s:SwitchCpp()
         let ext = 'h'
     elseif ext == 'cc'
         let ext = 'hh'
+    elseif ext == 'html'
+        let ext = 'js'
+    elseif ext == 'js'
+        let ext = 'html'
     end
 
     exe "edit " . no_ext . "." . ext
