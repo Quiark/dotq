@@ -26,6 +26,12 @@ Plug 'fsharp/vim-fsharp', {
 Plug 'ervandew/supertab'
 Plug 'dag/vim-fish'
 Plug 'tomlion/vim-solidity'
+Plug 'critiqjo/lldb.nvim'
+Plug 'atelierbram/vim-colors_atelier-schemes'
+Plug 'keith/parsec.vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'vim-scripts/proton'
+Plug 'daddye/soda.vim'
 
 
 
