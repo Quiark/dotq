@@ -32,6 +32,7 @@ Plug 'keith/parsec.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'vim-scripts/proton'
 Plug 'daddye/soda.vim'
+Plug 'leafgarland/typescript-vim'
 
 
 
