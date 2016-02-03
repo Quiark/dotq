@@ -32,6 +32,7 @@ Plug 'keith/parsec.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'vim-scripts/proton'
 Plug 'daddye/soda.vim'
+Plug 'leafgarland/typescript-vim'
 
 
 
@@ -41,6 +42,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 call plug#end()
 
+let g:python_host_prog = '/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python'
 
 " Neovim only
 tnoremap <Esc> <C-\><C-n>
