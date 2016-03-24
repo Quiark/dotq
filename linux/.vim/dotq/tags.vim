@@ -1,9 +1,11 @@
 
 "  Tags {{{1
 set tags=tags,../tags
-let g:ctags_cpp_opts = "--c++-kinds=+p --fields=+iaS --extra=+q --languages=c++"
+let g:ctags_cpp_opts = "--c++-kinds=+p --fields=+iaS --extra=+q --languages=c++ "
 func! MkTags()
-    exe 'silent !ctags '. g:ctags_cpp_opts .' -R *'
+	" cant have -R here by default, what if I dont want all subdirs (atopenssl
+	" has many build variants)
+    exe 'silent !ctags '. g:ctags_cpp_opts .' ./*'
 endfun
 
 
