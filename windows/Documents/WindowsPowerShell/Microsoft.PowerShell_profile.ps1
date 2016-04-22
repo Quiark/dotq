@@ -1,9 +1,9 @@
 ﻿Import-Module PSReadline
 #Import-Module Z
-#Import-Module posh-git
+Import-Module posh-git
 #import-module powerls
 # Load posh-git example profile
-#. 'C:\Users\Roman\Local Settings\GitHub\PoshGit_8aecd991d8ccf3dc78b8cd397ee4e1595f8556d4\profile.example.ps1'
+. 'C:\Users\Roman\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
 
 
 function venv { . $args\scripts\activate.ps1 }
@@ -18,4 +18,18 @@ function Dotq-Edit {
 	$PS_PROFILE="windows/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
 	gvim $PS_PROFILE -S dotq_session.vim
 	cd $ORIG_CD
+}
+
+function Git-Pull-Strong {
+	git diff-index HEAD --quiet --exit-code	
+	$NEEDS_STASH=$LASTEXITCODE
+	if ($NEEDS_STASH) {
+		git stash
+	} else {
+		echo "Not stashing"
+	}
+	git pull
+	if ($NEEDS_STASH) {
+		git stash pop
+	}
 }

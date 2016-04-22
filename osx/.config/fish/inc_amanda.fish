@@ -17,6 +17,11 @@ set -x PYTHONPATH $PYTHONPATH /Applications/Xcode.app/Contents/SharedFrameworks/
 #set -x PATH /Library/Frameworks/Python.framework/Versions/2.7/bin ~/android-sdks/android-ndk-r10/ $PATH
 set -x ANDROID_NDK_ROOT ~/android-sdks/android-ndk-r10/
 
+
+# For NeoVim
+set -x TERM xterm-256color
+
+
 set -x DOTQ_HOME ~/git/dotq
 . $DOTQ_HOME/linux/.config/fish/inc_common.fish
 
