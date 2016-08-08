@@ -36,16 +36,19 @@ Plug 'leafgarland/typescript-vim'
 Plug 'ternjs/tern_for_vim'
 Plug 'derekwyatt/vim-scala'
 Plug 'jceb/vim-orgmode'
+Plug 'FStarLang/VimFStar'
 
 
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 
 call plug#end()
 
 let g:python_host_prog = '/Users/roman/syspython2'
 let g:python3_host_prog = '/Users/roman/python3'
+
+let g:fstar_path = 'mono ~/Software/FStar/bin/fstar.exe'
 
 " Neovim only
 tnoremap <Esc> <C-\><C-n>

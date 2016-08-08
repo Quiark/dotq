@@ -1,8 +1,9 @@
 [user]
-    name = Roman Plášil
-    email = me@rplasil.name
+	name = Roman Plášil
+	email = me@rplasil.name
 [core]
 	editor = vim
+	excludesfile = /Users/roman/.gitignore_global
 
 [alias]
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
@@ -16,3 +17,5 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[commit]
+	template = /Users/roman/.stCommitMsg
