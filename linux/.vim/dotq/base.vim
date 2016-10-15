@@ -8,6 +8,7 @@ behave mswin
 syntax enable
 set shiftwidth=4
 set softtabstop=4
+setglobal scrolloff=0
 set tabstop=4
 set noexpandtab
 set guifont=lucida_console:h9:cEASTEUROPE
@@ -22,6 +23,7 @@ set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
 set ignorecase
 set smartcase
+set noundofile
 
 set formatoptions=roql
 set textwidth=0
