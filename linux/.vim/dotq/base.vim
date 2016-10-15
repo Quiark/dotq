@@ -72,3 +72,9 @@ nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 nmap <C-_> <C-W><C-_><C-W><Bar>
 map <F7> <C-W><C-=>
+
+
+" Other Plugin settings {{{1
+" Airline {{{2
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
