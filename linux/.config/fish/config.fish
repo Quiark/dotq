@@ -1,2 +1,4 @@
 # Loads things specific for a given computer
-. ~/.config/fish/inc_*.fish
+for i in (ls ~/.config/fish/inc_*.fish)
+	. $i
+end

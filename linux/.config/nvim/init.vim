@@ -37,6 +37,9 @@ Plug 'ternjs/tern_for_vim'
 Plug 'derekwyatt/vim-scala'
 Plug 'jceb/vim-orgmode'
 Plug 'FStarLang/VimFStar'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'fatih/vim-go'
+Plug 'majutsushi/tagbar'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }

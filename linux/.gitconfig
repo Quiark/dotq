@@ -19,3 +19,5 @@
 	trustExitCode = true
 [commit]
 	template = /Users/roman/.stCommitMsg
+[push]
+	default = simple

@@ -51,6 +51,8 @@ nnoremap ; :
 
 " Windows mappings I don't want:
 cunmap <C-A>
+" really annoying in linux terminal where it's triggered by Shift-Space
+inoremap <C-@> <Space>
 
 " Extra handy mappings {{{1
 imap <F2> <><Esc>i
