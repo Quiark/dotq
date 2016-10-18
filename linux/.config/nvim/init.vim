@@ -55,6 +55,7 @@ let g:fstar_path = 'mono ~/Software/FStar/bin/fstar.exe'
 " Neovim only
 tnoremap <Esc> <C-\><C-n>
 
+let g:fstar_path = 'mono ~/Projects/FStar/bin/fstar.exe'
 
 set t_vb=
 

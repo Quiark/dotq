@@ -35,3 +35,11 @@ function fix_pip_compiler
     set -x CXX /usr/bin/clang++
     set -x LDSHARED "/usr/bin/clang -bundle -undefined dynamic_lookup -arch i386 -arch x86_64   -g"
 end
+
+function devel_atcipher
+	cd ~/Astri/AtCipher/AtOpenSSL
+	# doesn't load it into outside environment
+	. .roman.fish
+	mvim -S .roman.vim
+	beefy src/js/ibe_jstester.js 9967
+end

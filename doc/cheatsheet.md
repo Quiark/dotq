@@ -5,10 +5,11 @@
 ## VimFiler
 
 - `,e`  Open VimFilerEx
-- `&`  Go to project dir
 - `v`  Preview file
-- `gc`  Set vim PWD
 - `.`  Show dot files
+
+- `gc`  Set vim PWD (for VimFiler window only)
+- `&`  Go to project dir
 
 ## Unite
 
