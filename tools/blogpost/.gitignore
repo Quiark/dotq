@@ -1,0 +1,5 @@
+env/
+backup_posts.json
+blogger.dat
+client_secrets.json
+blogpost.ini
