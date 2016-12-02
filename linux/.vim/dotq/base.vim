@@ -80,5 +80,8 @@ map <F7> <C-W><C-=>
 
 " Other Plugin settings {{{1
 " Airline {{{2
+" Airline can be pretty slow, handle with care
+" Explicitly disable any auto-extensions.
+let g:airline_extensions = ['tabline']
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
