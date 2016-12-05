@@ -38,6 +38,7 @@ Plug 'derekwyatt/vim-scala'
 Plug 'jceb/vim-orgmode'
 Plug 'FStarLang/VimFStar'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'hkupty/iron.nvim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
