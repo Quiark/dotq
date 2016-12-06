@@ -4,10 +4,10 @@ Plug 'tpope/vim-sensible'
 
 " Make sure you use single quotes
 Plug 'junegunn/seoul256.vim'
-Plug 'junegunn/vim-easy-align'
+"Plug 'junegunn/vim-easy-align'
 
 " Using git URL
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+"Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
 Plug 'https://github.com/Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
@@ -26,19 +26,21 @@ Plug 'fsharp/vim-fsharp', {
 Plug 'ervandew/supertab'
 Plug 'dag/vim-fish'
 Plug 'tomlion/vim-solidity'
-Plug 'critiqjo/lldb.nvim'
+"Plug 'critiqjo/lldb.nvim'
 Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'keith/parsec.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'vim-scripts/proton'
 Plug 'daddye/soda.vim'
 Plug 'leafgarland/typescript-vim'
-Plug 'ternjs/tern_for_vim'
+"Plug 'ternjs/tern_for_vim'
 Plug 'derekwyatt/vim-scala'
 Plug 'jceb/vim-orgmode'
 Plug 'FStarLang/VimFStar'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'hkupty/iron.nvim'
+Plug 'fatih/vim-go'
+Plug 'majutsushi/tagbar'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
