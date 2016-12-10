@@ -16,6 +16,12 @@
 - `,b`  Select a buffer
 - `,n`  Select a tag
 
+## Debug and Diagnose
+
+- `'verbose', 'verbosefile'`
+- `:au`
+- `let xy=execute('au')`  To grab the output
+
 # tmux
 
 - `set -g prefix ``   Set different prefix key
@@ -27,3 +33,8 @@
 
 - `venv x`  Activate virtualenv in directory `x`
 - `Dotq-Edit`  Open editor for dotq files
+
+
+# git
+
+- `git fetch` && `git checkout`    Seems to work to work on a remote branch.
