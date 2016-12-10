@@ -4,9 +4,9 @@
 . ~/Software/virtualfish/global_requirements.fish
 #. ~/Software/virtualfish/projects.fish
 
+set -x GOPATH ~/gopath
 
-set -x PATH $PATH ~ /opt/local/bin /opt/local/sbin
-set -x PATH $PATH ~/depot_tools
+set -x PATH $PATH ~/depot_tools $GOPATH/bin
 
 set -x LC_ALL C
 
@@ -43,3 +43,21 @@ function devel_atcipher
 	mvim -S .roman.vim
 	beefy src/js/ibe_jstester.js 9967
 end
+
+function devel_mitmproxy
+	# doing a reverse proxy by default, on port 8200
+	# $argv[1] will be the target server
+	cd ~/Astri/SecShare/GoKeyboard/mitmenv
+	. bin/activate.fish
+	mitmproxy --port 8200 $argv[1]
+end
+
+function dotq_help
+	echo Commands are:
+	echo  - devel_atcipher
+	echo  - devel_mitmproxy
+	echo  - dotq_stow
+	echo  - fix_pip_compiler
+end
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
