@@ -31,9 +31,10 @@ end
 
 # Because the new clang-3.6 I instnalled in /usr/local/bin doesnt work by default.
 function fix_pip_compiler
-    set -x CC /usr/bin/clang
-    set -x CXX /usr/bin/clang++
-    set -x LDSHARED "/usr/bin/clang -bundle -undefined dynamic_lookup -arch i386 -arch x86_64   -g"
+	echo '== Do This =='
+    echo set -x CC /usr/bin/clang
+    echo set -x CXX /usr/bin/clang++
+    echo set -x LDSHARED "/usr/bin/clang -bundle -undefined dynamic_lookup -arch i386 -arch x86_64   -g"
 end
 
 function devel_atcipher
