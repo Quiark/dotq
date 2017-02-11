@@ -11,7 +11,7 @@ set softtabstop=4
 setglobal scrolloff=0
 set tabstop=4
 set noexpandtab
-set guifont=lucida_console:h9:cEASTEUROPE
+"set guifont=lucida_console:h9:cEASTEUROPE
 let c_comment_strings=1
 set nowrap
 set nobackup
