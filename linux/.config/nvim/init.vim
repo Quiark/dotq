@@ -41,6 +41,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'hkupty/iron.nvim'
 Plug 'fatih/vim-go'
 Plug 'majutsushi/tagbar'
+Plug 'udalov/kotlin-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }

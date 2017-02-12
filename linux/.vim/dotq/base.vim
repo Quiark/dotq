@@ -85,3 +85,6 @@ map <F7> <C-W><C-=>
 let g:airline_extensions = ['tabline']
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
+
+" vim-go {{{2
+let g:go_fmt_autosave = 0
