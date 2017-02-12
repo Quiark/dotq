@@ -41,10 +41,10 @@ def all_posts(blogId, bodies=False):
 #pprint(posts)
 
 def update_post(title, content):
-    print('T', title)
+    #print('T', title)
     fnd = None
     for i in all_posts(blogId):
-        print('F', i['title'])
+        #print('F', i['title'])
         if i['title'] == title:
             fnd = i
             break
