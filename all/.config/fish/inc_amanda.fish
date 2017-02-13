@@ -5,8 +5,9 @@
 #. ~/Software/virtualfish/projects.fish
 
 set -x GOPATH ~/gopath
+set -x NODE_PATH (npm root -g)
 
-set -x PATH $PATH ~/depot_tools $GOPATH/bin
+set -x PATH $PATH ~/depot_tools $GOPATH/bin ~/
 
 set -x LC_ALL C
 
