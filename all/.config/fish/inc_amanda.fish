@@ -24,7 +24,7 @@ set -x TERM xterm-256color
 
 
 set -x DOTQ_HOME ~/git/dotq
-. $DOTQ_HOME/linux/.config/fish/inc_common.fish
+
 
 function dotq_stow
     stow -t ~ $DOTQ_HOME/osx

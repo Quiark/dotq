@@ -1,5 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
+command -nargs=+ Plugin Plug <args>
+
 Plug 'tpope/vim-sensible'
 
 " Make sure you use single quotes
@@ -9,14 +11,8 @@ Plug 'junegunn/seoul256.vim'
 " Using git URL
 "Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
-Plug 'https://github.com/Shougo/unite.vim'
-Plug 'Shougo/vimfiler.vim'
-Plug 'ujihisa/unite-colorscheme'
 Plug 'osyo-manga/unite-filetype'
-Plug 'osyo-manga/unite-quickfix'
 Plug 'nielsmadan/harlequin'
-Plug 'bling/vim-airline'
-Plug 'tsukkee/unite-tag'
 Plug 'flazz/vim-colorschemes'
 Plug 'scrooloose/syntastic'
 Plug 'fsharp/vim-fsharp', {
@@ -46,7 +42,7 @@ Plug 'udalov/kotlin-vim'
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
-
+source $DOTQ_HOME/all/.config/vim/dotq/plugins.vim
 call plug#end()
 
 let g:python_host_prog = '/Users/roman/syspython2'
@@ -75,8 +71,8 @@ endfunction
 
 " Basic settings {{{1
 
-source $DOTQ_HOME/linux/.vim/dotq/base.vim
-source $DOTQ_HOME/linux/.vim/dotq/tags.vim
+source $DOTQ_HOME/all/.config/vim/dotq/base.vim
+source $DOTQ_HOME/all/.config/vim/dotq/tags.vim
 
 
 let g:alternateExtensions_CPP = "inc,h,H,HPP,hpp,cc,hh"
@@ -105,7 +101,7 @@ menu &Plugin.&Colors.Two2Tango :color two2tango<CR>
 menu &Plugin.&Colors.TuttiColori :color tutticolori<CR>
 
 
-source $DOTQ_HOME/linux/.vim/dotq/unite.vim
+source $DOTQ_HOME/all/.config/vim/dotq/unite.vim
 
 " use global tern install
 let tern#command=['tern']
