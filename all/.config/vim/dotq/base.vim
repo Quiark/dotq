@@ -31,6 +31,7 @@ let g:DirDiffDynamicDiffText = 1
 
 
 set grepprg=ack
+set sh=sh
 
 set fileencodings=ucs-bom,utf-8
 setglobal fileencoding=utf-8
