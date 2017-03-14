@@ -1,3 +1,4 @@
+Plugin 'ervandew/supertab'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimfiler.vim'
 Plugin 'ujihisa/unite-colorscheme'

@@ -19,7 +19,7 @@ Plug 'fsharp/vim-fsharp', {
       \ 'for': 'fsharp',
       \ 'do':  'make fsautocomplete',
       \}
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
 Plug 'dag/vim-fish'
 Plug 'tomlion/vim-solidity'
 "Plug 'critiqjo/lldb.nvim'
