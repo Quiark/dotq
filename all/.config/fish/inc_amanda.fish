@@ -16,7 +16,9 @@ set -x PYTHONPATH $PYTHONPATH /usr/local/lib/python2.7/site-packages /Users/roma
 # For importing the lldb module, needed by lldb.nvim
 set -x PYTHONPATH $PYTHONPATH /Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Resources/Python
 #set -x PATH /Library/Frameworks/Python.framework/Versions/2.7/bin ~/android-sdks/android-ndk-r10/ $PATH
+
 set -x ANDROID_NDK_ROOT ~/android-sdks/android-ndk-r10/
+set -x JAVA_HOME (/usr/libexec/java_home)
 
 
 # For NeoVim
@@ -35,7 +37,7 @@ function fix_pip_compiler
 	echo '== Do This =='
     echo set -x CC /usr/bin/clang
     echo set -x CXX /usr/bin/clang++
-    echo set -x LDSHARED "/usr/bin/clang -bundle -undefined dynamic_lookup -arch i386 -arch x86_64   -g"
+    echo set -x LDSHARED \"/usr/bin/clang -bundle -undefined dynamic_lookup -arch i386 -arch x86_64   -g\"
 end
 
 function devel_atcipher
