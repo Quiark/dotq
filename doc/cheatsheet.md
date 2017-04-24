@@ -39,3 +39,12 @@
 # git
 
 - `git fetch` && `git checkout`    Seems to work to work on a remote branch.
+
+# weechat
+
+- compile on osx
+	doesnt work: `brew install weechat --with-perl --with-python --with-lua --with-curl`
+	download sources, config cmake options manually (without yaml, ruby), compile -> works
+
+	set -x LUA_PATH (luarocks path --lr-path)
+	set -x LUA_CPATH (luarocks path --lr-cpath)
