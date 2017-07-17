@@ -2,7 +2,6 @@ call plug#begin('~/.vim/plugged')
 
 command -nargs=+ Plugin Plug <args>
 
-Plug 'tpope/vim-sensible'
 
 " Make sure you use single quotes
 Plug 'junegunn/seoul256.vim'
