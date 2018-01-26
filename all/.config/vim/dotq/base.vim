@@ -1,7 +1,7 @@
 " Basic settings {{{1
 filetype plugin on
 set nocompatible
-source $VIMRUNTIME/vimrc_example.vim
+"source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
 

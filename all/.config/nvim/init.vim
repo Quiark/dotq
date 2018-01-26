@@ -35,17 +35,21 @@ Plug 'FStarLang/VimFStar'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'hkupty/iron.nvim'
 Plug 'fatih/vim-go'
+Plug 'tpope/vim-surround'
 Plug 'majutsushi/tagbar'
 Plug 'udalov/kotlin-vim'
+Plug 'junegunn/rainbow_parentheses.vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
+" Comment this out to make PlugInstall work fine again :/
 source $DOTQ_HOME/all/.config/vim/dotq/plugins.vim
 call plug#end()
 
-let g:python_host_prog = '/Users/roman/syspython2'
-let g:python3_host_prog = '/Users/roman/python3'
+" can be used for debugging
+" let g:python_host_prog = '/Users/roman/syspython2'
+" let g:python3_host_prog = '/Users/roman/python3'
 
 let g:fstar_path = 'mono ~/Software/FStar/bin/fstar.exe'
 
