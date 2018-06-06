@@ -38,7 +38,9 @@ Plug 'fatih/vim-go'
 Plug 'tpope/vim-surround'
 Plug 'majutsushi/tagbar'
 Plug 'udalov/kotlin-vim'
+Plug '~/Devel/fstarry'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'pangloss/vim-javascript'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
