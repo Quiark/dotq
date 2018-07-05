@@ -1,0 +1,22 @@
+{
+	"corda_log": {
+		"title": "Corda",
+		"multiline": true,
+		"regex": {
+			"jvm": {
+				"pattern": "^\\[(?<alert_level>\\w+\\s*)\\] (?<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2},\\d+\\w*) \\[(?<thread>[\\w() \\d/.:-]+)\\] (?<logger>[\\w.\\d, <->$]+) - (?<body>.*(\\n[^\\[].*)*)"
+			}
+		},
+        "level-field" : "alert_level",
+		"value": {
+			"logger": { "kind" : "string", "identifier" : true },
+			"thread": { "kind" : "string", "identifier" : true }
+
+		},
+		"sample": [
+			{
+				"line": "[INFO ] 2018-05-04T02:52:58,229Z [main (u)] internal.ArtemisMessagingClient.start - Connecting to message broker: localhost:10000 {}"
+			}
+		]
+	}
+}
