@@ -18,7 +18,6 @@ Plug 'fsharp/vim-fsharp', {
       \ 'for': 'fsharp',
       \ 'do':  'make fsautocomplete',
       \}
-"Plug 'ervandew/supertab'
 Plug 'dag/vim-fish'
 Plug 'tomlion/vim-solidity'
 "Plug 'critiqjo/lldb.nvim'
@@ -33,7 +32,7 @@ Plug 'derekwyatt/vim-scala'
 Plug 'jceb/vim-orgmode'
 Plug 'FStarLang/VimFStar'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'hkupty/iron.nvim'
+"Plug 'hkupty/iron.nvim'
 Plug 'fatih/vim-go'
 Plug 'tpope/vim-surround'
 Plug 'majutsushi/tagbar'
@@ -41,6 +40,10 @@ Plug 'udalov/kotlin-vim'
 Plug '~/Devel/fstarry'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'b4b4r07/vim-hcl'
+Plug 'jacoborus/tender'
+Plug 'posva/vim-vue'
+"Plug 'Shougo/denite.nvim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -51,14 +54,10 @@ call plug#end()
 
 " can be used for debugging
 " let g:python_host_prog = '/Users/roman/syspython2'
-" let g:python3_host_prog = '/Users/roman/python3'
+" TODO need /usr/local/bin/python3 for macOS, something else on windows
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 let g:fstar_path = 'mono ~/Software/FStar/bin/fstar.exe'
-
-" Neovim only
-tnoremap <Esc> <C-\><C-n>
-
-let g:fstar_path = 'mono ~/Projects/FStar/bin/fstar.exe'
 
 set t_vb=
 
@@ -110,3 +109,6 @@ source $DOTQ_HOME/all/.config/vim/dotq/unite.vim
 
 " use global tern install
 let tern#command=['tern']
+
+" removes some of airline's slowdowns
+let g:airline_highlighting_cache=1
