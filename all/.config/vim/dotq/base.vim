@@ -2,8 +2,10 @@
 filetype plugin on
 set nocompatible
 "source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
+
+" Removed this as it breaks VimR
+"source $VIMRUNTIME/mswin.vim
+"behave mswin
 
 syntax enable
 set shiftwidth=4
@@ -53,7 +55,7 @@ set matchpairs=(:),[:],{:},<:>
 nnoremap ; :
 
 " Windows mappings I don't want:
-cunmap <C-A>
+"cunmap <C-A>
 " really annoying in linux terminal where it's triggered by Shift-Space
 inoremap <C-@> <Space>
 
