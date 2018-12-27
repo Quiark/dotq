@@ -47,3 +47,11 @@ end
 function fishnix
 	source ~/install/fishnix.fish
 end
+
+function zvif
+	set name $argv[1]
+	set server vifm # TODO
+
+	set result (z --echo $name)
+	vifm --server-name $server --remote +"cd \"$result\""
+end
