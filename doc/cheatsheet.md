@@ -22,6 +22,10 @@
 - `:au`
 - `let xy=execute('au')`  To grab the output
 
+## Colors
+
+- `call RescueSyntaxPython()` to fix colors after changing color schemes (defined in `plugin/rescue.vim`)
+
 # tmux
 
 - `set -g prefix ``   Set different prefix key
@@ -40,6 +44,10 @@
 # git
 
 - `git fetch` && `git checkout`    Seems to work to work on a remote branch.
+
+### git log simplification
+ 
+- want to display meaningful branching history in terminal, need to explore what git log provides
 
 # weechat
 
