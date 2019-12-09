@@ -26,6 +26,12 @@
 
 - `call RescueSyntaxPython()` to fix colors after changing color schemes (defined in `plugin/rescue.vim`)
 
+Interesting colorschemes
+
+- sacredforest
+- pink-moon
+- herokudoc
+
 # tmux
 
 - `set -g prefix ``   Set different prefix key

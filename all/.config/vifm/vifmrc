@@ -19,7 +19,7 @@ set vicmd=vim
 " standard utilities like `cp`.  While using `cp` and alike is a more universal
 " solution, it's also much slower and doesn't support progress measuring.
 
-" set syscalls
+set syscalls
 
 " Trash Directory
 " The default is to move files that are deleted with dd or :d to
@@ -57,11 +57,11 @@ set novimhelp
 " If you would like to run an executable file when you
 " press return on the file name set this.
 
-set norunexec
+" set norunexec
 
 " Selected color scheme
 
-colorscheme desert
+colorscheme ph
 
 " Format for displaying time in file list. For example:
 " TIME_STAMP_FORMAT=%m/%d-%H:%M
@@ -324,7 +324,7 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 
 " Customize view columns a bit (enable ellipsis for truncated file names)
 "
-" set viewcolumns=-{name}..,6{}.
+set viewcolumns=-{name}...,*{target},10{perms},6{size}
 
 " Filter-out build and temporary files
 "
@@ -384,15 +384,17 @@ nnoremap <f8> :delete<cr>
 
 " ------------------------------------------------------------------------------
 "
-highlight /^.*\.(mp3|ogg|oga|flac|m4a)$/ ctermfg=magenta
-highlight /^.*\.(jpg|jpeg|png|gif|tiff|webp|bmp|svg|svgz)$/ ctermfg=yellow
-highlight /^.*\.(zip|gz|bz2|xz|tar|tgz|tbz2|7z|rar|iso|rpm|deb)$/ ctermfg=red
+"highlight /^.*\.(mp3|ogg|oga|flac|m4a)$/ ctermfg=magenta
+"highlight /^.*\.(jpg|jpeg|png|gif|tiff|webp|bmp|svg|svgz)$/ ctermfg=yellow
+"highlight /^.*\.(zip|gz|bz2|xz|tar|tgz|tbz2|7z|rar|iso|rpm|deb)$/ ctermfg=red
 
 " Use z, defined in inc_clymene.fish
 command z zvif %a
 
 set dotfiles
-color molokai
+
+set findprg='find %s'
+
 
 " Various customization examples
 

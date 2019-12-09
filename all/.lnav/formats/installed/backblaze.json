@@ -1,0 +1,20 @@
+{
+	"backblaze": {
+		"title": "backblaze",
+		"multiline": false,
+		"regex": {
+			"backblaze": {
+				"pattern": "^(?<timestamp>\\d{4}\\d{2}\\d{2}\\d{2}\\d{2}\\d{2}) - (?<body>.*)"
+			}
+		},
+		"timestamp-format": ["%Y%m%d%H%M%S"],
+		"value": {
+
+		},
+		"sample": [
+			{
+				"line": "20190401000201 - ProduceTodoListOfFilesToBeBackedUp - reading perVol filelist with guid v00089c8a1101e986f846108081e, filelist was produced on gmt_millis=1554051779647 which is gmt: 20190331170259"
+			}
+		]
+	}
+}

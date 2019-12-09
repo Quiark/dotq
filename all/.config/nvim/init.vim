@@ -33,7 +33,7 @@ Plug 'jceb/vim-orgmode'
 Plug 'FStarLang/VimFStar'
 Plug 'vim-airline/vim-airline-themes'
 "Plug 'hkupty/iron.nvim'
-Plug 'fatih/vim-go'
+"Plug 'fatih/vim-go'
 Plug 'tpope/vim-surround'
 Plug 'majutsushi/tagbar'
 Plug 'udalov/kotlin-vim'
@@ -44,6 +44,8 @@ Plug 'b4b4r07/vim-hcl'
 Plug 'jacoborus/tender'
 Plug 'posva/vim-vue'
 "Plug 'Shougo/denite.nvim'
+Plug 'LnL7/vim-nix'
+Plug 'Glench/Vim-Jinja2-Syntax'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -60,6 +62,9 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 let g:fstar_path = 'mono ~/Software/FStar/bin/fstar.exe'
 
 set t_vb=
+
+tmap <Esc> <C-\><C-N>
+map <C-C> "+y
 
 
 " Diff {{{1
