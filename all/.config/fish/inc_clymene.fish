@@ -69,7 +69,9 @@ function dotpdf
 	open $name.pdf
 end
 
+# This is for Voltron, for use with get-cookie.sh
 function carl
 	set path $argv[1]
-	curl -b curl_cookies $PROXY -H "$CSRF" -H 'Content-type: application/json' $URL/$path $argv[2..-1]
+	set CSRF (grep X-CSRF-TOKEN curl_login.txt | tr -d '\n\r')
+	curl -b curl_cookies.txt $PROXY -H "$CSRF" -H 'Content-type: application/json' $URL/$path $argv[2..-1]
 end
