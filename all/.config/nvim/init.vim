@@ -38,6 +38,7 @@ Plug 'tpope/vim-surround'
 Plug 'majutsushi/tagbar'
 Plug 'udalov/kotlin-vim'
 Plug '~/Devel/fstarry'
+Plug '~/Devel/mtrepl'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'b4b4r07/vim-hcl'
@@ -117,3 +118,6 @@ let tern#command=['tern']
 
 " removes some of airline's slowdowns
 let g:airline_highlighting_cache=1
+
+" colors
+set termguicolors

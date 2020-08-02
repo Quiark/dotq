@@ -1,3 +1,4 @@
+# pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib oauth2client
 import os
 import sys
 import json
@@ -5,7 +6,6 @@ from subprocess import Popen
 from pprint import pprint
 from os.path import join
 
-from oauth2client import client
 from apiclient import sample_tools
 import apiclient
 from httplib2 import Http

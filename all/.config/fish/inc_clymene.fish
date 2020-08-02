@@ -3,12 +3,13 @@ set -x JAVA_HOME (/usr/libexec/java_home)
 # set -x MANPATH ~/Documents/man
 set -x TOOLBOX ~/Projects/CordaPerformance/scripts/
 
-set -x PATH ~/.nix-profile/bin $PATH ^/dev/null;
-set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs /nix/var/nix/profiles/per-user/roman/channels
+set -x PATH ~/.nix-profile/bin $PATH $HOME/.krew/bin  ^/dev/null;
+set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixpkgs /nix/var/nix/profiles/per-user/root/channels
 
 # bad iTerm2 thinks it's smarter than me
 set -e LC_CTYPE
 set -e LC_NUMERIC
+set -x LANG 'en_US.UTF-8'
 
 # deprecated
 function sshcd
@@ -43,7 +44,9 @@ function ktlintize
 end
 
 function nixupdate
-	 sudo -i sh -c 'nix-channel --update && nix-env -iA nixpkgs.nix && launchctl remove org.nixos.nix-daemon && launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist'
+	#echo TODO need to fix this, it updates roots channels but thats different from romans
+	# lets not use romans channel
+	sudo -i sh -c 'nix-channel --update && nix-env -iA nixpkgs.nix && launchctl remove org.nixos.nix-daemon && launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist'
 end
 
 function zvif
@@ -58,9 +61,24 @@ function vimr
 	/usr/local/bin/vimr --cur-env
 end
 
+# load environment for current folder
+#  either python venv
+#  or fish env.fish
 function venv
-	# TODO support passing env folder name
-	source ./env/bin/activate.fish
+	if test -e ./env.fish
+		source ./env.fish
+		return
+	end
+
+
+	# Python venv
+	if set -q $argv[1]
+		set name env
+	else
+		set name $argv[1]
+	end
+
+	source ./$name/bin/activate.fish
 end
 
 function dotpdf
@@ -73,5 +91,27 @@ end
 function carl
 	set path $argv[1]
 	set CSRF (grep X-CSRF-TOKEN curl_login.txt | tr -d '\n\r')
-	curl -b curl_cookies.txt $PROXY -H "$CSRF" -H 'Content-type: application/json' $URL/$path $argv[2..-1]
+	curl -b curl_cookies.txt $PROXY -H "$CSRF" -H 'Content-type: application/json' $URL/$path $argv[2..-1] | tee curl_last.txt | jq
 end
+
+function laul
+	switch $argv[1]
+		case list
+			launchctl list | grep -v com.apple
+			ll ~/Library/Launch*
+			ll /Library/Launch*
+		case restart
+			launchctl unload -w $argv[2]
+			launchctl load -w $argv[2]  # TODO dont run if previous errored
+		case findp
+			# TODO search for a path matching regex
+			# print it and also save to (global?) variable so it can be easily used
+	end
+end
+
+alias ku kubectl
+
+# override this builtin function because calling svn is expensive
+function fish_svn_prompt
+end
+
