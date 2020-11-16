@@ -10,7 +10,10 @@ Plug 'junegunn/seoul256.vim'
 " Using git URL
 "Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
-Plug 'osyo-manga/unite-filetype'
+" the old stuff
+"Plug 'osyo-manga/unite-filetype'
+"source $DOTQ_HOME/all/.config/vim/dotq/unite.vim
+
 Plug 'nielsmadan/harlequin'
 Plug 'flazz/vim-colorschemes'
 Plug 'scrooloose/syntastic'
@@ -35,7 +38,7 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'hkupty/iron.nvim'
 "Plug 'fatih/vim-go'
 Plug 'tpope/vim-surround'
-Plug 'majutsushi/tagbar'
+Plug 'preservim/tagbar'
 Plug 'udalov/kotlin-vim'
 Plug '~/Devel/fstarry'
 Plug '~/Devel/mtrepl'
@@ -44,9 +47,18 @@ Plug 'pangloss/vim-javascript'
 Plug 'b4b4r07/vim-hcl'
 Plug 'jacoborus/tender'
 Plug 'posva/vim-vue'
-"Plug 'Shougo/denite.nvim'
 Plug 'LnL7/vim-nix'
 Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'sainnhe/sonokai'
+Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'franbach/miramare'
+Plug 'wadackel/vim-dogrun'
+Plug 'editorconfig/editorconfig-vim'
+
+" The new stuff
+Plug 'Shougo/denite.nvim'
+Plug 'Shougo/defx.nvim'
+Plug 't9md/vim-choosewin'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -58,7 +70,8 @@ call plug#end()
 " can be used for debugging
 " let g:python_host_prog = '/Users/roman/syspython2'
 " TODO need /usr/local/bin/python3 for macOS, something else on windows
-let g:python3_host_prog = '/usr/local/bin/python3'
+" TODO dont use this any more, nvim from Nix brings its own
+"let g:python3_host_prog = '/usr/local/bin/python3'
 
 let g:fstar_path = 'mono ~/Software/FStar/bin/fstar.exe'
 
@@ -89,6 +102,8 @@ let g:alternateExtensions_CPP = "inc,h,H,HPP,hpp,cc,hh"
 let g:alternateExtensions_CC = "hh"
 let g:alternateExtensions_HH = "cpp,cc"
 
+let g:choosewin_overlay_enable = 1
+
 "  Menu items {{{1
 menu &Plugin.Scons.Latex\ template :!python -m my_scons --setup-latex<CR>
 menu &Plugin.&Switch :A<CR>
@@ -111,7 +126,6 @@ menu &Plugin.&Colors.Two2Tango :color two2tango<CR>
 menu &Plugin.&Colors.TuttiColori :color tutticolori<CR>
 
 
-source $DOTQ_HOME/all/.config/vim/dotq/unite.vim
 
 " use global tern install
 let tern#command=['tern']

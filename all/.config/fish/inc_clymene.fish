@@ -1,15 +1,16 @@
-set -x JAVA_HOME (/usr/libexec/java_home)
+set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
 # this breaks man, it needs to contain all paths
 # set -x MANPATH ~/Documents/man
 set -x TOOLBOX ~/Projects/CordaPerformance/scripts/
 
 set -x PATH ~/.nix-profile/bin $PATH $HOME/.krew/bin  ^/dev/null;
-set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixpkgs /nix/var/nix/profiles/per-user/root/channels
+set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs /nix/var/nix/profiles/per-user/roman/channels
 
 # bad iTerm2 thinks it's smarter than me
 set -e LC_CTYPE
 set -e LC_NUMERIC
 set -x LANG 'en_US.UTF-8'
+# TODO: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
 
 # deprecated
 function sshcd
@@ -115,3 +116,7 @@ alias ku kubectl
 function fish_svn_prompt
 end
 
+function vaultcmd
+	set -x VAULT_ADDR 'https://vault.office.cryptoblk.io'
+	 ~/Projects/cblk_vault/vltbuild/vaultcmd/vaultcmd.py $argv
+end
