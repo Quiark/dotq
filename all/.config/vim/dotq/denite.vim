@@ -1,7 +1,14 @@
 " TODO
-"  - select target window (also for Defx)
-"  - start buffer with insert mode
-"  - start Defx always on the left
+"  + select target window (also for Defx)
+"  + start buffer with insert mode
+"  + start Defx always on the left
+"  + choosewin offers quickfix window as candidate
+"  + enable cursorline for Defx
+"  + icons for Defx
+"  - press Enter once in Denite to open the item
+"  - could have different shortcut, say, [,h] which will open buffer selection
+"    without choosing the target window and opens here
+"  - enter folder on CR (set it as top-level)
 
 " Define mappings
 autocmd FileType denite call s:denite_my_settings()
@@ -24,7 +31,7 @@ endfunction
 
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 function! s:denite_filter_my_settings() abort
-  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+  imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
 endfunction
 
 " Change file/rec command.
@@ -72,12 +79,10 @@ call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
 
 
 function! s:is_ignore_window(winnr)
-  let ignore_filtype = ["unite", "vimfiler", "vimshell", "nerdtree", "denite", "defx"]
+  let ignore_filtype = ["unite", "vimfiler", "vimshell", "nerdtree", "denite", "defx", "qf"]
   return index(ignore_filtype, getbufvar(winbufnr(a:winnr), "&filetype")) != -1
 endfunction
 
-" TODO ok now make it work with defx
-" well defx has different format of context argument
 function! OpenWithChoosewin(context)
 	let path = a:context['targets'][0]['action__path']
 	call s:openWithChoose(path)
@@ -99,38 +104,74 @@ function! s:openWithChoose(path)
 	endif
 endfunction
 
+call denite#custom#action('buffer,directory,file,openable', 'open_with_choosewin', function('OpenWithChoosewin'))
+
 function! DefxOpenWithChoosewin(context)
 	let path = a:context.targets[0]
 	call s:openWithChoose(path)
 endfun
 
-call denite#custom#action('buffer,directory,file,openable', 'open_with_choosewin', function('OpenWithChoosewin'))
+function! DefxSmartOpen(_)
+    if defx#is_directory()
+		return (defx#call_action('open_tree', 'toggle') . 'j')
+        "return defx#is_opened_tree() ?
+                "\ defx#call_action('close_tree') : defx#call_action('open_tree')
+    else
+        return defx#call_action('call', 'DefxOpenWithChoosewin')
+    endif
+endfunction
+
+function! DefxClose(context)
+    if line('.') ==# 1 || line('$') ==# 1
+        return defx#call_action('cd', ['..'])
+    endif
+	return defx#call_action('close_tree')
+endfun
+
+call defx#custom#column('icon', {
+			\ 'directory_icon': '▸',
+			\ 'opened_icon': '▾',
+			\ 'root_icon': '≡',
+			\ })
 
 " =========================== DeFX =================================
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
-  " Define mappings
+  set cursorline
+
+  " Movement
   nnoremap <silent><buffer><expr> <CR>
-  \ defx#do_action('call', 'DefxOpenWithChoosewin')
+  \ defx#do_action('call', 'DefxSmartOpen')
+  nnoremap <silent><buffer><expr> h
+  \ defx#do_action('call', 'DefxClose')
+  nnoremap <silent><buffer><expr> l
+  \ defx#do_action('call', 'DefxSmartOpen')
   nnoremap <silent><buffer><expr> o
   \ defx#do_action('open')
   nnoremap <silent><buffer><expr> E
   \ defx#do_action('open', 'vsplit')
   nnoremap <silent><buffer><expr> P
   \ defx#do_action('preview')
-  nnoremap <silent><buffer><expr> l
-  \ defx#do_action('open_tree', 'toggle') . 'j'
+  nnoremap <silent><buffer><expr> j
+  \ line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k
+  \ line('.') == 1 ? 'G' : 'k'
+
+  " editing
   nnoremap <silent><buffer><expr> K
   \ defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> d
+  \ defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r
+  \ defx#do_action('rename')
+
+  " display
   nnoremap <silent><buffer><expr> C
   \ defx#do_action('toggle_columns',
   \                'mark:indent:icon:filename:type:size:time')
   nnoremap <silent><buffer><expr> S
   \ defx#do_action('toggle_sort', 'time')
-  nnoremap <silent><buffer><expr> d
-  \ defx#do_action('remove')
-  nnoremap <silent><buffer><expr> r
-  \ defx#do_action('rename')
+
   nnoremap <silent><buffer><expr> !
   \ defx#do_action('execute_command')
   nnoremap <silent><buffer><expr> x
@@ -141,8 +182,6 @@ function! s:defx_my_settings() abort
   \ defx#do_action('toggle_ignored_files')
   nnoremap <silent><buffer><expr> ;
   \ defx#do_action('repeat')
-  nnoremap <silent><buffer><expr> h
-  \ defx#do_action('open_tree', 'toggle')
   nnoremap <silent><buffer><expr> ~
   \ defx#do_action('cd')
   nnoremap <silent><buffer><expr> q
@@ -151,10 +190,6 @@ function! s:defx_my_settings() abort
   \ defx#do_action('toggle_select') . 'j'
   nnoremap <silent><buffer><expr> *
   \ defx#do_action('toggle_select_all')
-  nnoremap <silent><buffer><expr> j
-  \ line('.') == line('$') ? 'gg' : 'j'
-  nnoremap <silent><buffer><expr> k
-  \ line('.') == 1 ? 'G' : 'k'
   nnoremap <silent><buffer><expr> <C-l>
   \ defx#do_action('redraw')
   nnoremap <silent><buffer><expr> <C-g>
@@ -166,5 +201,5 @@ function! s:defx_my_settings() abort
 endfunction
 
 " =========================== custom =================================
-map ,b :Denite buffer<CR>
+map ,b :Denite -start-filter buffer<CR>
 map ,e :Defx -split=vertical -winwidth=40 -direction=topleft<CR>

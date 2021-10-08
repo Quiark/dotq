@@ -54,6 +54,7 @@ Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'franbach/miramare'
 Plug 'wadackel/vim-dogrun'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-scripts/argtextobj.vim'
 
 " The new stuff
 Plug 'Shougo/denite.nvim'
@@ -66,6 +67,8 @@ Plug 't9md/vim-choosewin'
 " Comment this out to make PlugInstall work fine again :/
 source $DOTQ_HOME/all/.config/vim/dotq/plugins.vim
 call plug#end()
+
+source $DOTQ_HOME/all/.config/vim/dotq/denite.vim
 
 " can be used for debugging
 " let g:python_host_prog = '/Users/roman/syspython2'
@@ -135,3 +138,4 @@ let g:airline_highlighting_cache=1
 
 " colors
 set termguicolors
+color sonokai

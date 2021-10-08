@@ -1,10 +1,12 @@
-set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
+set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/
 # this breaks man, it needs to contain all paths
 # set -x MANPATH ~/Documents/man
 set -x TOOLBOX ~/Projects/CordaPerformance/scripts/
 
 set -x PATH ~/.nix-profile/bin $PATH $HOME/.krew/bin  ^/dev/null;
 set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs /nix/var/nix/profiles/per-user/roman/channels
+set -x VAULT_ADDR 'https://vault.office.cryptoblk.io'
+set -x DOCKER_HOST tcp://192.168.56.101:4242
 
 # bad iTerm2 thinks it's smarter than me
 set -e LC_CTYPE
@@ -82,6 +84,10 @@ function venv
 	source ./$name/bin/activate.fish
 end
 
+function py3stuffenv
+	source ~/install/py3stuff/bin/activate.fish
+end
+
 function dotpdf
 	set name $argv[1]
 	dot -Tpdf $name.dot -o $name.pdf
@@ -89,6 +95,8 @@ function dotpdf
 end
 
 # This is for Voltron, for use with get-cookie.sh
+# TODO put get-cookie here so it can be used for other projects
+# TODO make script that parses key=val, key1=val2 into JSON
 function carl
 	set path $argv[1]
 	set CSRF (grep X-CSRF-TOKEN curl_login.txt | tr -d '\n\r')
@@ -105,8 +113,15 @@ function laul
 			launchctl unload -w $argv[2]
 			launchctl load -w $argv[2]  # TODO dont run if previous errored
 		case findp
+			echo TODO
 			# TODO search for a path matching regex
 			# print it and also save to (global?) variable so it can be easily used
+		case help
+			echo "laul [list | restart | help | findp]"
+			echo " ---"
+			echo "launchctl cheatsheet:"
+			echo "launchctl load|unload <filename>"
+			echo "launchctl start|stop <label>"
 	end
 end
 
@@ -115,8 +130,10 @@ alias ku kubectl
 # override this builtin function because calling svn is expensive
 function fish_svn_prompt
 end
+# slows down command tab completion
+function __fish_describe_command
+end
 
-function vaultcmd
-	set -x VAULT_ADDR 'https://vault.office.cryptoblk.io'
-	 ~/Projects/cblk_vault/vltbuild/vaultcmd/vaultcmd.py $argv
+function cerberus_dev_tunnel
+	ssh -L 1443:cerberus-d-cerberus-dev-k8s-2fe518-6089d59a.hcp.koreasouth.azmk8s.io:443 -D2002 -i ~/.ssh/id_ed25519 roman@macmini.office
 end

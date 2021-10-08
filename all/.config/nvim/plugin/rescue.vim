@@ -24,3 +24,20 @@ function RescueSyntaxPython()
 	hi link pythonDoctest		Special
 	hi link pythonDoctestValue	Define
 endfun
+
+function PythonCompiler()
+	"the last line: \%-G%.%# is meant to suppress some
+	"late error messages that I found could occur e.g.
+	"with wxPython and that prevent one from using :clast
+	"to go to the relevant file and line of the traceback.
+	setlocal errorformat=
+	\%A\ \ File\ \"%f\"\\\,\ line\ %l\\\,%m,
+	\%C\ \ \ \ %.%#,
+	\%+Z%.%#Error\:\ %.%#,
+	\%A\ \ File\ \"%f\"\\\,\ line\ %l,
+	\%+C\ \ %.%#,
+	\%-C%p^,
+	\%Z%m
+	"\%-G%.%#
+
+endfun

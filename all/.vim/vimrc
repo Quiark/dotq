@@ -15,4 +15,4 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 source ~/.config/vim/dotq/tags.vim
-source ~/.config/vim/dotq/unite.vim
+"source ~/.config/vim/dotq/unite.vim

@@ -11,7 +11,7 @@
 " If you would like to use another vi clone such as Elvis or Vile
 " you will need to change this setting.
 
-set vicmd=vim
+set vicmd=nvim
 " set vicmd=elvis\ -G\ termcap
 " set vicmd=vile
 
@@ -61,7 +61,9 @@ set novimhelp
 
 " Selected color scheme
 
-colorscheme bandit
+"colorscheme bandit
+" OK schemes: bandit, beekai, bubblegum-256-light, alduin, adaryn, darkdesert
+colorscheme lilypink.ext
 
 " Format for displaying time in file list. For example:
 " TIME_STAMP_FORMAT=%m/%d-%H:%M
@@ -207,10 +209,10 @@ fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
 
 " Web
 filetype *.html,*.htm
-       \ {Open in Safari}
-       \ open -a Safari.app,
        \ {Open in Firefox}
        \ open -a Firefox.app,
+       \ {Open in Safari}
+       \ open -a Safari.app,
        \ {Open in Chrome}
        \ open -a Google\ Chrome.app,
        \ {Open in vim}
@@ -281,6 +283,8 @@ filetype *.pkg open
 filetype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt open -a LibreOffice.app
 fileviewer *.doc antiword -
 fileviewer *.docx, docx2txt.pl %f -
+
+filetype *.log lnav %f
 
 " Syntax highlighting in preview
 "
