@@ -16,7 +16,7 @@ Plug 'junegunn/seoul256.vim'
 
 Plug 'nielsmadan/harlequin'
 Plug 'flazz/vim-colorschemes'
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'fsharp/vim-fsharp', {
       \ 'for': 'fsharp',
       \ 'do':  'make fsautocomplete',
@@ -29,20 +29,21 @@ Plug 'keith/parsec.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'vim-scripts/proton'
 Plug 'daddye/soda.vim'
-Plug 'leafgarland/typescript-vim'
+"Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
 "Plug 'ternjs/tern_for_vim'
 Plug 'derekwyatt/vim-scala'
 Plug 'jceb/vim-orgmode'
-Plug 'FStarLang/VimFStar'
+"Plug 'FStarLang/VimFStar'
 Plug 'vim-airline/vim-airline-themes'
 "Plug 'hkupty/iron.nvim'
 "Plug 'fatih/vim-go'
 Plug 'tpope/vim-surround'
 Plug 'preservim/tagbar'
 Plug 'udalov/kotlin-vim'
-Plug '~/Devel/fstarry'
-Plug '~/Devel/mtrepl'
-Plug 'junegunn/rainbow_parentheses.vim'
+"Plug '~/Devel/fstarry'
+"Plug '~/Devel/mtrepl'
+"Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'b4b4r07/vim-hcl'
 Plug 'jacoborus/tender'
@@ -55,11 +56,18 @@ Plug 'franbach/miramare'
 Plug 'wadackel/vim-dogrun'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-scripts/argtextobj.vim'
+Plug 'sainnhe/everforest'
+Plug 'ayu-theme/ayu-vim'
+Plug 'ray-x/aurora'
+Plug 'Rigellute/rigel'
+Plug 'franbach/miramare'
 
 " The new stuff
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/defx.nvim'
 Plug 't9md/vim-choosewin'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -69,6 +77,7 @@ source $DOTQ_HOME/all/.config/vim/dotq/plugins.vim
 call plug#end()
 
 source $DOTQ_HOME/all/.config/vim/dotq/denite.vim
+source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
 
 " can be used for debugging
 " let g:python_host_prog = '/Users/roman/syspython2'
