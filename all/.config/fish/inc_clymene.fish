@@ -3,7 +3,11 @@ set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Hom
 # set -x MANPATH ~/Documents/man
 set -x TOOLBOX ~/Projects/CordaPerformance/scripts/
 
-set -x PATH ~/.nix-profile/bin $PATH $HOME/.krew/bin  ^/dev/null;
+# to support 'nix-shell --pure' usage with fish
+if [ $PATH[1] = '/usr/local/bin' ]
+    # normal case -- add
+    set -x PATH ~/.nix-profile/bin $PATH $HOME/.krew/bin
+end
 set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs /nix/var/nix/profiles/per-user/roman/channels
 set -x VAULT_ADDR 'https://vault.office.cryptoblk.io'
 set -x DOCKER_HOST tcp://192.168.56.101:4242
@@ -14,29 +18,16 @@ set -e LC_NUMERIC
 set -x LANG 'en_US.UTF-8'
 # TODO: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
 
-# deprecated
-function sshcd
-	set to $argv[1]
-	set cwd '~'
-	switch to
-		case 'corda*'
-			set cwd /opt/corda
-		case 'webserver*'
-			set cwd /opt/api/TLC-0.5.1
-		case 'notary*'
-			set cwd /opt/corda
-	end
-	ssh -t $to sudo bash -l
+if [ (whoami) = 'root' ]
+	set --global hydro_color_pwd red
+else
+	set --global hydro_color_pwd green
 end
+
 
 function cor
 	source $TOOLBOX/cor_session.fish
 end
-
-function tlc_cluster
-	fish $TOOLBOX/tlc_cluster.fish $argv
-end
-
 
 function vim_fstar
 	vimr --nvim -S ~/Devel/fstarvim/session.vim
@@ -60,10 +51,6 @@ function zvif
 	vifm --server-name $server --remote +"cd \"$result\""
 end
 
-function vimr
-	/usr/local/bin/vimr --cur-env
-end
-
 # load environment for current folder
 #  either python venv
 #  or fish env.fish
@@ -82,6 +69,7 @@ function venv
 	end
 
 	source ./$name/bin/activate.fish
+	# TODO support loading direnv.fish
 end
 
 function py3stuffenv
@@ -102,6 +90,16 @@ function carl
 	set CSRF (grep X-CSRF-TOKEN curl_login.txt | tr -d '\n\r')
 	curl -b curl_cookies.txt $PROXY -H "$CSRF" -H 'Content-type: application/json' $URL/$path $argv[2..-1] | tee curl_last.txt | jq
 end
+
+function carl_login
+	if set -q URL; and set -q USERNAME; and set -q PASSWORD
+		# ok
+	else
+		echo Need to set \$URL, \$USERNAME, \$PASSWORD
+	end
+	curl $URL/login -X POST $PROXY --data '{"username":"'$USERNAME'", "password":"'$PASSWORD'"}' -H 'Content-Type:application/json' -c curl_cookies.txt -i -s | tee curl_login.txt
+end
+
 
 function laul
 	switch $argv[1]
@@ -136,4 +134,49 @@ end
 
 function cerberus_dev_tunnel
 	ssh -L 1443:cerberus-d-cerberus-dev-k8s-2fe518-6089d59a.hcp.koreasouth.azmk8s.io:443 -D2002 -i ~/.ssh/id_ed25519 roman@macmini.office
+end
+
+function cerberus_prod_tunnel
+	ssh -L 1443:cerberus-prod-1-k8s-44ff6892.hcp.southeastasia.azmk8s.io:443 -D2002 -i ~/.ssh/id_ed25519 roman@macmini.office
+end
+
+function run_grafana
+	# installed using nix
+	# BTW had to manully link from .nix-profile/share/grafana to ~/.grafana
+	grafana-server -homepath ~/.grafana
+end
+
+set -x HLP_COMMANDS 'hlp:print the help'
+function hlp_register
+    set cmd $argv[1]
+    set desc $argv[2]
+
+	set ix 1
+	for i in $HLP_COMMANDS
+        set vars (string split -m 1 : $i)
+		if [ "$vars[1]" = "$cmd" ]
+			set -e HLP_COMMANDS[$ix]
+			break
+		end
+		set ix (math $ix + 1)
+	end
+    set -x HLP_COMMANDS $HLP_COMMANDS $cmd:"$desc"
+end
+
+function hlp
+    for i in $HLP_COMMANDS
+        set vars (string split -m 1 : $i)
+        set_color red; echo -n $vars[1]
+        set_color yellow; echo -n ' :: '
+        set_color normal; echo $vars[2]
+    end
+end
+
+hlp_register explorerepo 'explorecode: Download a repository and open it with Vim. explorecode <git-repo>'
+function explorerepo
+	cd ~/install
+	set name (string split / $argv[1])[2]
+	git clone $argv $name
+	cd name
+	nvim README.md
 end

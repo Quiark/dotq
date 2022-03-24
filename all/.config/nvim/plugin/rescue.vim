@@ -39,5 +39,11 @@ function PythonCompiler()
 	\%-C%p^,
 	\%Z%m
 	"\%-G%.%#
+endfun
+
+function! RescueCocHighlights()
+  hi default link NormalFloat Pmenu
+  hi default link CocHintFloat DiffAdd
+  hi default link CocErrorFloat DiffDelete
 
 endfun

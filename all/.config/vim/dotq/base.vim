@@ -59,7 +59,7 @@ nnoremap ; :
 " really annoying in linux terminal where it's triggered by Shift-Space
 inoremap <C-@> <Space>
 
-" Extra handy mappings {{{1
+" Extra handy mappings for HTML {{{1
 imap <F2> <><Esc>i
 imap <F3> </a><Esc>hcl
 imap <F4> </><Esc>hi

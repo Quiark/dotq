@@ -1,0 +1,13 @@
+{
+	"suggest": {
+		"floatEnable": false
+	},
+	"diagnostic": {
+	  "level": "warning"
+	},
+	"python": {
+	  "analysis": {
+
+	  }
+	}
+}
