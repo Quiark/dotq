@@ -32,7 +32,7 @@ set textwidth=0
 let g:DirDiffDynamicDiffText = 1
 
 
-set grepprg=ack
+set grepprg=rg\ --vimgrep
 set sh=sh
 
 set fileencodings=ucs-bom,utf-8

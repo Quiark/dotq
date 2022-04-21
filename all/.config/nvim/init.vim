@@ -138,10 +138,6 @@ menu &Plugin.&Colors.Two2Tango :color two2tango<CR>
 menu &Plugin.&Colors.TuttiColori :color tutticolori<CR>
 
 
-
-" use global tern install
-let tern#command=['tern']
-
 " removes some of airline's slowdowns
 let g:airline_highlighting_cache=1
 

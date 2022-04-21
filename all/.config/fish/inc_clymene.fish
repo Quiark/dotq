@@ -1,14 +1,15 @@
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/
 # this breaks man, it needs to contain all paths
 # set -x MANPATH ~/Documents/man
-set -x TOOLBOX ~/Projects/CordaPerformance/scripts/
+
+set -x DOTQ_HOME ~/git/dotq
 
 # to support 'nix-shell --pure' usage with fish
 if [ $PATH[1] = '/usr/local/bin' ]
     # normal case -- add
-    set -x PATH ~/.nix-profile/bin $PATH $HOME/.krew/bin
+    set -x PATH ~/.nix-profile/bin /nix/var/nix/profiles/default/bin $PATH $HOME/.cargo/bin
 end
-set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs /nix/var/nix/profiles/per-user/roman/channels
+#set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs
 set -x VAULT_ADDR 'https://vault.office.cryptoblk.io'
 set -x DOCKER_HOST tcp://192.168.56.101:4242
 
@@ -24,10 +25,6 @@ else
 	set --global hydro_color_pwd green
 end
 
-
-function cor
-	source $TOOLBOX/cor_session.fish
-end
 
 function vim_fstar
 	vimr --nvim -S ~/Devel/fstarvim/session.vim
@@ -60,6 +57,10 @@ function venv
 		return
 	end
 
+	if test -e ./direnv.fish
+		source ./direnv.fish
+		return
+	end
 
 	# Python venv
 	if set -q $argv[1]
@@ -132,14 +133,6 @@ end
 function __fish_describe_command
 end
 
-function cerberus_dev_tunnel
-	ssh -L 1443:cerberus-d-cerberus-dev-k8s-2fe518-6089d59a.hcp.koreasouth.azmk8s.io:443 -D2002 -i ~/.ssh/id_ed25519 roman@macmini.office
-end
-
-function cerberus_prod_tunnel
-	ssh -L 1443:cerberus-prod-1-k8s-44ff6892.hcp.southeastasia.azmk8s.io:443 -D2002 -i ~/.ssh/id_ed25519 roman@macmini.office
-end
-
 function run_grafana
 	# installed using nix
 	# BTW had to manully link from .nix-profile/share/grafana to ~/.grafana
@@ -172,11 +165,16 @@ function hlp
     end
 end
 
-hlp_register explorerepo 'explorecode: Download a repository and open it with Vim. explorecode <git-repo>'
+hlp_register explorerepo 'explorecode: Download a github repository and open it with Vim. explorecode <github-repo>'
 function explorerepo
 	cd ~/install
 	set name (string split / $argv[1])[2]
-	git clone $argv $name
-	cd name
+	git clone https://github.com/$argv[1] $name
+	cd $name
 	nvim README.md
+end
+
+function vifm
+	set -x TERM xterm-direct
+	~/.nix-profile/bin/vifm $argv
 end
