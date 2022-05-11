@@ -11,13 +11,14 @@ if [ $PATH[1] = '/usr/local/bin' ]
 end
 #set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs
 set -x VAULT_ADDR 'https://vault.office.cryptoblk.io'
-set -x DOCKER_HOST tcp://192.168.56.101:4242
+set -x DOCKER_HOST tcp://192.168.54.2:4242
 
 # bad iTerm2 thinks it's smarter than me
 set -e LC_CTYPE
 set -e LC_NUMERIC
 set -x LANG 'en_US.UTF-8'
-# TODO: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
+set -x BROWSER none
+# NOTE: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
 
 if [ (whoami) = 'root' ]
 	set --global hydro_color_pwd red
@@ -51,26 +52,36 @@ end
 # load environment for current folder
 #  either python venv
 #  or fish env.fish
+#  TODO show current direnv in prompt ,kinda like python venv
 function venv
-	if test -e ./env.fish
-		source ./env.fish
+	set PATH_OPTIONS '.' (git rev-parse --show-toplevel)
+	for TRYPATH in $PATH_OPTIONS
+	  if test -e $TRYPATH/env.fish
+		  set -gx DIRENV_ROOT (realpath $TRYPATH)
+		  source $TRYPATH/env.fish
+		  return
+	  end
+
+	  if test -e $TRYPATH/direnv.fish
+		  set -gx DIRENV_ROOT (realpath $TRYPATH)
+		  source $TRYPATH/direnv.fish
+		  return
+	  end
+
+	  # Python venv
+	  if set -q $argv[1]
+		  set name env
+	  else
+		  set name $argv[1]
+	  end
+
+	  set ACT $TRYPATH/$name/bin/activate.fish
+	  if test -e $ACT
+		set -gx DIRENV_ROOT (realpath $TRYPATH)
+		source $ACT
 		return
+	  end
 	end
-
-	if test -e ./direnv.fish
-		source ./direnv.fish
-		return
-	end
-
-	# Python venv
-	if set -q $argv[1]
-		set name env
-	else
-		set name $argv[1]
-	end
-
-	source ./$name/bin/activate.fish
-	# TODO support loading direnv.fish
 end
 
 function py3stuffenv
@@ -177,4 +188,10 @@ end
 function vifm
 	set -x TERM xterm-direct
 	~/.nix-profile/bin/vifm $argv
+end
+
+hlp_register minop_deploy 'Deploy minop scripts to target machine'
+function minop_deploy
+  # TODO /etc/profile.d/ is not read when doing `sudo bash` only with `sudo bash -l`
+  ~/git/dotq/tools/minop/upload.sh $argv
 end
