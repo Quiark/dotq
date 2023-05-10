@@ -1,4 +1,4 @@
-set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/
+#set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/
 # this breaks man, it needs to contain all paths
 # set -x MANPATH ~/Documents/man
 
@@ -10,8 +10,6 @@ if [ $PATH[1] = '/usr/local/bin' ]
     set -x PATH ~/.nix-profile/bin /nix/var/nix/profiles/default/bin $PATH $HOME/.cargo/bin
 end
 #set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs
-set -x VAULT_ADDR 'https://vault.office.cryptoblk.io'
-set -x DOCKER_HOST tcp://192.168.54.2:4242
 
 # bad iTerm2 thinks it's smarter than me
 set -e LC_CTYPE
@@ -49,6 +47,39 @@ function zvif
 	vifm --server-name $server --remote +"cd \"$result\""
 end
 
+function _venv_update_prompt
+	# Save the current fish_prompt function as the function _old_fish_prompt.
+    functions -c fish_prompt _venv_old_fish_prompt
+
+    # With the original prompt function renamed, we can override with our own.
+    function fish_prompt
+		set name (basename $DIRENV_ROOT)
+
+        # Save the return status of the last command.
+        set -l old_status $status
+
+        # Output the venv prompt; color taken from the blue of the Python logo.
+        printf "%s%s%s" (set_color 4BBE8E) ":$name: " (set_color normal)
+
+        # Restore the return status of the previous command.
+        echo "exit $old_status" | .
+        # Output the original/"old" prompt.
+        _venv_old_fish_prompt
+    end
+
+end
+
+function _venv_maybe_reload --on-event fish_prompt
+	if [ -n "$DIRENV_FILE" ] 
+		set time (stat -c %Y $DIRENV_FILE)
+		if [ $time -gt $DIRENV_MTIME ]
+			source $DIRENV_FILE
+			echo (set_color 4BBEE8) "Reloaded env" (set_color 4BBE8E) (basename $DIRENV_ROOT)
+			set -gx DIRENV_MTIME $time
+		end
+	end
+end
+
 # load environment for current folder
 #  either python venv
 #  or fish env.fish
@@ -59,12 +90,19 @@ function venv
 	  if test -e $TRYPATH/env.fish
 		  set -gx DIRENV_ROOT (realpath $TRYPATH)
 		  source $TRYPATH/env.fish
+		  set -gx DIRENV_MTIME (stat -c %Y $TRYPATH/env.fish)
+		  set -gx DIRENV_FILE (realpath $TRYPATH/env.fish)
+		  _venv_update_prompt $TRYPATH
 		  return
 	  end
+	  # TODO deprecate env.fish
 
 	  if test -e $TRYPATH/direnv.fish
 		  set -gx DIRENV_ROOT (realpath $TRYPATH)
 		  source $TRYPATH/direnv.fish
+		  set -gx DIRENV_MTIME (stat -c %Y $TRYPATH/direnv.fish)
+		  set -gx DIRENV_FILE (realpath $TRYPATH/direnv.fish)
+		  _venv_update_prompt $TRYPATH
 		  return
 	  end
 
@@ -192,6 +230,11 @@ end
 
 hlp_register minop_deploy 'Deploy minop scripts to target machine'
 function minop_deploy
-  # TODO /etc/profile.d/ is not read when doing `sudo bash` only with `sudo bash -l`
   ~/git/dotq/tools/minop/upload.sh $argv
+end
+
+function poetry
+    # because can't install it as a standalone binary with nixpkgs
+    # so make an alias
+    ~/install/py3_11stuff/bin/poetry $argv
 end

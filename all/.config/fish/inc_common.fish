@@ -10,3 +10,6 @@ set -x hydro_color_prompt blue
 
 alias cd. 'cd ..'
 alias cd.. 'cd ../..'
+alias l 'll -a'
+alias l. 'll -a ..'
+alias l.. 'll -a ../..'

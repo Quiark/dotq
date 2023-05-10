@@ -80,6 +80,10 @@ nmap <C-l> <C-w>l
 nmap <C-_> <C-W><C-_><C-W><Bar>
 map <F7> <C-W><C-=>
 
+" sometimes paragraph navigation just doesnt' cut it
+map gj 15j
+map gk 15k
+
 
 " Other Plugin settings {{{1
 " Airline {{{2

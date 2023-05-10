@@ -1,6 +1,7 @@
 {
 	"suggest": {
-		"floatEnable": false
+		"floatEnable": false,
+		"enablePreselect": true
 	},
 	"diagnostic": {
 	  "level": "warning"
@@ -9,5 +10,18 @@
 	  "analysis": {
 
 	  }
-	}
+	},
+	"rust-analyzer": {
+		"server":{
+			"path": "/Users/roman/.nix-profile/bin/rust-analyzer"
+		}
+	},
+	"languageserver": {
+		"move": {
+			"command": "/Users/roman/.cargo/bin/move-analyzer",
+			"filetypes": ["move"]
+		}
+	},
+	"eslint.quiet": true,
+  "eslint.enable": false
 }

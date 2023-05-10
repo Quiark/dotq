@@ -6,4 +6,4 @@ scp `dirname $0`/aliases.fish $1:/tmp/
 
 ssh $1 sudo mv /tmp/aliases.sh /etc/profile.d/
 ssh $1 sudo mkdir -p /etc/fish/conf.d/
-ssh $1 sudo mv /tmp/aliases.fish /etc/fish/conf.d/
+ssh $1 sudo sh -c "\"mv /tmp/aliases.fish /etc/fish/conf.d/; echo source /etc/profile.d/aliases.sh >> /etc/bash.bashrc\""

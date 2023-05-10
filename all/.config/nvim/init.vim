@@ -67,7 +67,12 @@ Plug 'Shougo/denite.nvim'
 Plug 'Shougo/defx.nvim'
 Plug 't9md/vim-choosewin'
 
+Plug 'rvmelkonian/move.vim'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug '~/install/vifm.vim'
+Plug 'github/copilot.vim'
+Plug 'Rigellute/shades-of-purple.vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }

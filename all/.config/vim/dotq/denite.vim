@@ -34,9 +34,9 @@ function! s:denite_filter_my_settings() abort
   imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
 endfunction
 
-" Change file/rec command.
-call denite#custom#var('file/rec', 'command',
-\ ['ack'])
+" Change file/rec command to ripgrep
+call denite#custom#var('file/rec', 'command',  ['rg', '--files', '--glob', '!.git', '--color', 'never'])
+
 
 " Change matchers.
 call denite#custom#source(

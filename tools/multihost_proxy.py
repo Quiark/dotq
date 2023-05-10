@@ -6,10 +6,11 @@ from mitmproxy import http
 from mitmproxy.connection import Server
 from mitmproxy.net.server_spec import ServerSpec
 
-API_IP = '3.38.125.145'
+API_IP = 'localhost'
+API_PORT = 8088
 
 def request(flow: http.HTTPFlow) -> None:
     if '/api/' in flow.request.url:
-        flow.server_connv = Server(f'http://{API_IP}:8080')
+        flow.server_connv = Server(f'http://{API_IP}:{API_PORT}')
         flow.request.host = API_IP
-        flow.request.port = 8080
+        flow.request.port = API_PORT

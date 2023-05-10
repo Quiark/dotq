@@ -11,9 +11,15 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> go :<C-u>CocList -I symbols<cr>
 nnoremap <silent> gh :call CocActionAsync('doHover')<cr>
+nmap <silent> gA :call CocAction('doQuickfix')<cr>
+
+" show completion
+inoremap <silent><expr> <c-space> coc#refresh()
+
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+"nmap <silent> gc :CocAction<cr>
 
 " TODO need to set color of float windows
 hi NormalFloat guibg=#987890
