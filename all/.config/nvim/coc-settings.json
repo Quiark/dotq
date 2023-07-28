@@ -11,17 +11,30 @@
 
 	  }
 	},
-	"rust-analyzer": {
-		"server":{
-			"path": "/Users/roman/.nix-profile/bin/rust-analyzer"
-		}
-	},
 	"languageserver": {
-		"move": {
-			"command": "/Users/roman/.cargo/bin/move-analyzer",
-			"filetypes": ["move"]
-		}
-	},
-	"eslint.quiet": true,
-  "eslint.enable": false
+        "rust-analyzer": {
+			"command": "/Users/roman/install/rust-analyzer",
+            "filetypes": ["rust"],
+            "trace": {
+				"server": "verbose"
+            }
+        },
+        "move": {
+            "command": "/Users/roman/.cargo/bin/move-analyzer",
+            "filetypes": ["move"]
+        },
+        "terraform": {
+            "command": "terraform-ls",
+            "args": ["serve"],
+            "filetypes": [
+                "terraform",
+                "tf",
+                "hcl"
+            ],
+            "initializationOptions": {},
+            "settings": {}
+        }
+    },
+    "eslint.quiet": true,
+    "eslint.enable": false
 }

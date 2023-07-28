@@ -46,33 +46,33 @@ Plug 'udalov/kotlin-vim'
 "Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'b4b4r07/vim-hcl'
-Plug 'jacoborus/tender'
 Plug 'posva/vim-vue'
 Plug 'LnL7/vim-nix'
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'sainnhe/sonokai'
-Plug 'bluz71/vim-nightfly-guicolors'
-Plug 'franbach/miramare'
-Plug 'wadackel/vim-dogrun'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-scripts/argtextobj.vim'
 Plug 'sainnhe/everforest'
 Plug 'ayu-theme/ayu-vim'
 Plug 'ray-x/aurora'
-Plug 'Rigellute/rigel'
-Plug 'franbach/miramare'
 
 " The new stuff
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/defx.nvim'
-Plug 't9md/vim-choosewin'
+Plug '~/install/vim-choosewin'
+Plug 'tjdevries/stackmap.nvim'
 
 Plug 'rvmelkonian/move.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug '~/install/vifm.vim'
 Plug 'github/copilot.vim'
-Plug 'Rigellute/shades-of-purple.vim'
+Plug '~/Devel/hector.nvim'
+Plug 'catppuccin/nvim'
+
+Plug 'mfussenegger/nvim-dap', { 'for': ['typescript', 'python', 'rust'] }
+Plug 'mxsdev/nvim-dap-vscode-js', { 'for': ['typescript'] }
+Plug 'mfussenegger/nvim-dap-python', { 'for': ['python'] }
+Plug 'rcarriga/nvim-dap-ui', { 'for': ['typescript', 'python', 'rust'] }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -83,6 +83,8 @@ call plug#end()
 
 source $DOTQ_HOME/all/.config/vim/dotq/denite.vim
 source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
+source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
+source $DOTQ_HOME/all/.config/nvim/dotq/debugging.vim
 
 " can be used for debugging
 " let g:python_host_prog = '/Users/roman/syspython2'

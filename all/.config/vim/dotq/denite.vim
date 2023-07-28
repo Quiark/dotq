@@ -13,8 +13,13 @@
 " Define mappings
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action', 'open_with_choosewin')
+  if b:denite.buffer_name == 'menu'
+    nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+  else
+    nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action', 'open_with_choosewin')
+  endif
   nnoremap <silent><buffer><expr> d
   \ denite#do_map('do_action', 'delete')
   nnoremap <silent><buffer><expr> p
@@ -27,6 +32,9 @@ function! s:denite_my_settings() abort
   \ denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> <Space>
   \ denite#do_map('toggle_select').'j'
+  " for the menu thing because open with 
+  nnoremap <silent><buffer><expr> o
+  \ denite#do_map('do_action')
 endfunction
 
 autocmd FileType denite-filter call s:denite_filter_my_settings()
@@ -54,13 +62,12 @@ call denite#custom#kind('file', 'default_action', 'split')
 
 " Ack command on grep source
 call denite#custom#var('grep', {
-	\ 'command': ['ack'],
+	\ 'command': ['rg'],
 	\ 'default_opts': [
-	\   '--ackrc', $HOME.'/.ackrc', '-H', '-i',
-	\   '--nopager', '--nocolor', '--nogroup', '--column'
+	\   '--vimgrep'
 	\ ],
 	\ 'recursive_opts': [],
-	\ 'pattern_opt': ['--match'],
+	\ 'pattern_opt': [],
 	\ 'separator': ['--'],
 	\ 'final_opts': [],
 	\ })
@@ -203,3 +210,42 @@ endfunction
 " =========================== custom =================================
 map ,b :Denite -start-filter buffer<CR>
 map ,e :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
+map ,m :Denite menu -winheight=10 -buffer-name=menu<CR>
+
+" -- menu --
+let g:dotq_menus = {}
+
+func! DotqUpdateMenus()
+	call denite#custom#var('menu', 'menus', g:dotq_menus)
+endfunc
+
+let g:dotq_menus.coc = {
+	\ 'description': 'Coc/LSP related common commands',
+	\ }
+
+let g:dotq_menus.coc.command_candidates = [
+	\ [ '[TS] Build results', 'CocCommand tsserver.watchBuild'],
+	\ ]
+
+let g:dotq_menus.hector = {
+	\ 'description': 'GPT AI related common commands',
+	\ }
+
+let g:dotq_menus.hector.command_candidates = [
+	\ [ 'Open GPT side window', 'OpenHector'],
+	\ [ 'Send to GPT', 'AskHector'],
+	\ ]
+
+let g:dotq_menus.debug = {
+	\ 'description': 'Debugger',
+	\ }
+
+let g:dotq_menus.debug.command_candidates = [
+	\ [ 'br -- Breakpoint', 'lua require"dap".toggle_breakpoint()'],
+	\ [ 'c -- Continue', 'lua require"dap".continue()'],
+	\ [ '[Python] Init debugger', 'call DotqSetupDapPython'],
+	\ [ 'Start debugging', 'call DotqDapStart'],
+	\ [ 'Stop debugging', 'call DotqDapStop'],
+	\ ]
+
+call DotqUpdateMenus()

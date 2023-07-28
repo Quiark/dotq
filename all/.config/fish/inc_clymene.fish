@@ -18,6 +18,8 @@ set -x LANG 'en_US.UTF-8'
 set -x BROWSER none
 # NOTE: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
 
+ulimit -n 1024 # any normal project will hit the 256 limit
+
 if [ (whoami) = 'root' ]
 	set --global hydro_color_pwd red
 else
@@ -214,13 +216,19 @@ function hlp
     end
 end
 
-hlp_register explorerepo 'explorecode: Download a github repository and open it with Vim. explorecode <github-repo>'
-function explorerepo
-	cd ~/install
-	set name (string split / $argv[1])[2]
-	git clone https://github.com/$argv[1] $name
-	cd $name
-	nvim README.md
+
+hlp_register tabtitle 'Set the title of the current tab in iTerm2'
+function tabtitle
+  # BTW need to configure this trigger in iTerm
+  # regex: \\033]0;([a-z_-]+)\\007
+  # uncheck use interpolated strings
+  echo '\033]0;'$argv'\007'
+end
+
+hlp_register new_tmux_session 'Create a new tmux session with the given name'
+function new_tmux_session
+  tabtitle $argv
+  tmux new-session -s $argv
 end
 
 function vifm
@@ -237,4 +245,35 @@ function poetry
     # because can't install it as a standalone binary with nixpkgs
     # so make an alias
     ~/install/py3_11stuff/bin/poetry $argv
+end
+
+function debuggy_py
+  ~/install/py3stuff/bin/python -m debugpy --listen localhost:5678 $argv
+  # 19737
+end
+
+function debuggy_rust
+  ~/install/codelldb/adapter/codelldb --port 13000
+end
+
+hlp_register debuggy 'Control DAP based debuggers'
+function debuggy
+  switch $argv[1]
+    case py
+      debuggy_py $argv[2..-1]
+    case rust
+      debuggy_rust $argv[2..-1]
+    case '*'
+      echo "Usage:"
+      echo "debuggy py script.py"
+      echo "debuggy rust"
+  end
+end
+
+hlp_register cgen_tf_login 'Log in to AWS via SSO for use with Terraform'
+function cgen_tf_login
+  # use profile cgen-tf in terraform config
+  # need to configure the AWS config profile to use the legacy approach without auto-refresh
+  # where we are not using a separate sso-session section
+  aws sso login --no-browser --profile cgen-tf
 end
