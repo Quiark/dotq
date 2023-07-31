@@ -26,7 +26,7 @@ end
 
 local stop_dap = function () 
   dap().disconnect()
-  stackmap.pop()
+  stackmap.pop('debugger', 'n')
 end
 
 vim.api.nvim_create_user_command("Dap", setup_dap, { nargs = 0 })

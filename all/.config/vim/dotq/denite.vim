@@ -210,42 +210,40 @@ endfunction
 " =========================== custom =================================
 map ,b :Denite -start-filter buffer<CR>
 map ,e :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
-map ,m :Denite menu -winheight=10 -buffer-name=menu<CR>
+map ,m :Denite flatmenu -winheight=10 -start-filter -buffer-name=menu<CR>
 
 " -- menu --
 let g:dotq_menus = {}
 
 func! DotqUpdateMenus()
-	call denite#custom#var('menu', 'menus', g:dotq_menus)
+	call denite#custom#var('flatmenu', 'menus', g:dotq_menus)
 endfunc
 
-let g:dotq_menus.coc = {
-	\ 'description': 'Coc/LSP related common commands',
-	\ }
-
-let g:dotq_menus.coc.command_candidates = [
+let g:dotq_menus.coc = [
 	\ [ '[TS] Build results', 'CocCommand tsserver.watchBuild'],
 	\ ]
 
-let g:dotq_menus.hector = {
-	\ 'description': 'GPT AI related common commands',
-	\ }
-
-let g:dotq_menus.hector.command_candidates = [
+let g:dotq_menus.hector = [
 	\ [ 'Open GPT side window', 'OpenHector'],
 	\ [ 'Send to GPT', 'AskHector'],
 	\ ]
 
-let g:dotq_menus.debug = {
-	\ 'description': 'Debugger',
-	\ }
-
-let g:dotq_menus.debug.command_candidates = [
-	\ [ 'br -- Breakpoint', 'lua require"dap".toggle_breakpoint()'],
-	\ [ 'c -- Continue', 'lua require"dap".continue()'],
+let g:dotq_menus.debug = [
+	\ [ 'Breakpoint', 'lua require"dap".toggle_breakpoint()'],
+	\ [ 'Continue', 'lua require"dap".continue()'],
 	\ [ '[Python] Init debugger', 'call DotqSetupDapPython'],
 	\ [ 'Start debugging', 'call DotqDapStart'],
 	\ [ 'Stop debugging', 'call DotqDapStop'],
 	\ ]
+
+
+func! s:to_cmd(item)
+  return [a:item, 'colorscheme ' . a:item]
+endfunc
+
+let g:dotq_menus.colors = map([
+      \ 'madeofcode', 'pink-moon', 'hydrangea', 'japaneque', 'pulumi', 'novum', 'tender', 'everforest', 'nord',
+      \ 'aurora', 'miramare', 'luna', 'gotham', 'deus', 'rootwater'
+      \], 's:to_cmd(v:val)')
 
 call DotqUpdateMenus()
