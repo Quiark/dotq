@@ -232,8 +232,8 @@ let g:dotq_menus.debug = [
 	\ [ 'Breakpoint', 'lua require"dap".toggle_breakpoint()'],
 	\ [ 'Continue', 'lua require"dap".continue()'],
 	\ [ '[Python] Init debugger', 'call DotqSetupDapPython'],
-	\ [ 'Start debugging', 'call DotqDapStart'],
-	\ [ 'Stop debugging', 'call DotqDapStop'],
+	\ [ 'Start debugging', 'Dap'],
+	\ [ 'Stop debugging', 'DapStop'],
 	\ ]
 
 
@@ -242,8 +242,16 @@ func! s:to_cmd(item)
 endfunc
 
 let g:dotq_menus.colors = map([
-      \ 'madeofcode', 'pink-moon', 'hydrangea', 'japaneque', 'pulumi', 'novum', 'tender', 'everforest', 'nord',
-      \ 'aurora', 'miramare', 'luna', 'gotham', 'deus', 'rootwater'
+      \ 'madeofcode', 'pink-moon', 'hydrangea', 'japaneque', 'pulumi', 'tender', 'everforest', 'nord',
+      \ 'aurora', 'miramare', 'luna', 'gotham', 'deus', 'rootwater', 'rigel', 'deus', 'ayu', 'pencil',
+        \ 'lyla', 'madrid', 'kanagawa', 'nightfox', 'nightfly', 
+        \ 'tokyonight', 'tokyonight-storm', 'tokyonight-day', 'tokyonight-night', 'tokyonight-moon',
+		\ 'ghostbuster', 'mod8', 'metalheart', 'catppuccin', 'catppuccin-frappe', 'catppuccin-macchiato',
+		\ 'catppuccin-mocha'
+      \], 's:to_cmd(v:val)')
+
+let g:dotq_menus.lightcolors = map([
+			\ 'tokyonight-day', 'catppuccin-latte'
       \], 's:to_cmd(v:val)')
 
 call DotqUpdateMenus()

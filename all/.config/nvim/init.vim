@@ -83,7 +83,6 @@ call plug#end()
 
 source $DOTQ_HOME/all/.config/vim/dotq/denite.vim
 source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
-source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
 source $DOTQ_HOME/all/.config/nvim/dotq/debugging.vim
 
 " can be used for debugging
