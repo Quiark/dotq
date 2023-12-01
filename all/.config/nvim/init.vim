@@ -68,6 +68,8 @@ Plug '~/install/vifm.vim'
 Plug 'github/copilot.vim'
 Plug '~/Devel/hector.nvim'
 Plug 'catppuccin/nvim'
+Plug 'chrisbra/csv.vim'
+Plug 'ribru17/bamboo.nvim'
 
 Plug 'mfussenegger/nvim-dap', { 'for': ['typescript', 'python', 'rust'] }
 Plug 'mxsdev/nvim-dap-vscode-js', { 'for': ['typescript'] }

@@ -247,7 +247,7 @@ let g:dotq_menus.colors = map([
         \ 'lyla', 'madrid', 'kanagawa', 'nightfox', 'nightfly', 
         \ 'tokyonight', 'tokyonight-storm', 'tokyonight-day', 'tokyonight-night', 'tokyonight-moon',
 		\ 'ghostbuster', 'mod8', 'metalheart', 'catppuccin', 'catppuccin-frappe', 'catppuccin-macchiato',
-		\ 'catppuccin-mocha'
+		\ 'catppuccin-mocha', 'bamboo'
       \], 's:to_cmd(v:val)')
 
 let g:dotq_menus.lightcolors = map([

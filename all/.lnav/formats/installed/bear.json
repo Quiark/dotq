@@ -1,0 +1,22 @@
+{
+	"bear": {
+		"title": "Bear Backend",
+		"multiline": false,
+		"regex": {
+			"systemd-bear": {
+				"pattern": "^(?<timestamp>(?:\\S{3,8}\\s+\\d{1,2} \\d{2}:\\d{2}:\\d{2})) (?<hostname>[a-zA-Z0-9-]+) (?<unit>\\w+)\\[(?<pid>\\d+)\\]: (?<alert_level>ERROR|WARN|DEBUG|INFO|TRACE) (?<thread>\\w+\\(\\d*\\)) (?<module>\\w+(::?\\w+)+) (?<body>.*)"
+			}
+		},
+        "level-field" : "alert_level",
+		"value": {
+			"module": { "kind" : "string", "identifier" : true },
+			"pid": { "kind" : "integer", "identifier" : true },
+			"thread": { "kind" : "string", "identifier" : true }
+		},
+		"sample": [
+			{
+				"line": "Dec 01 01:33:19 ip-10-0-10-178 battledao[1899630]: ERROR ThreadId(6) bear::errors:138 Web handler error:[Not Found "
+			}
+		]
+	}
+}
