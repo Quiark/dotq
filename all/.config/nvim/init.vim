@@ -1,87 +1,5 @@
-call plug#begin('~/.vim/plugged')
 
-command -nargs=+ Plugin Plug <args>
-
-
-" Make sure you use single quotes
-Plug 'junegunn/seoul256.vim'
-"Plug 'junegunn/vim-easy-align'
-
-" Using git URL
-"Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-
-" the old stuff
-"Plug 'osyo-manga/unite-filetype'
-"source $DOTQ_HOME/all/.config/vim/dotq/unite.vim
-
-Plug 'nielsmadan/harlequin'
-Plug 'flazz/vim-colorschemes'
-"Plug 'scrooloose/syntastic'
-Plug 'fsharp/vim-fsharp', {
-      \ 'for': 'fsharp',
-      \ 'do':  'make fsautocomplete',
-      \}
-Plug 'dag/vim-fish'
-Plug 'tomlion/vim-solidity'
-"Plug 'critiqjo/lldb.nvim'
-Plug 'atelierbram/vim-colors_atelier-schemes'
-Plug 'keith/parsec.vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'vim-scripts/proton'
-Plug 'daddye/soda.vim'
-"Plug 'leafgarland/typescript-vim'
-Plug 'HerringtonDarkholme/yats.vim'
-"Plug 'ternjs/tern_for_vim'
-Plug 'derekwyatt/vim-scala'
-Plug 'jceb/vim-orgmode'
-"Plug 'FStarLang/VimFStar'
-Plug 'vim-airline/vim-airline-themes'
-"Plug 'hkupty/iron.nvim'
-"Plug 'fatih/vim-go'
-Plug 'tpope/vim-surround'
-Plug 'preservim/tagbar'
-Plug 'udalov/kotlin-vim'
-"Plug '~/Devel/fstarry'
-"Plug '~/Devel/mtrepl'
-"Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'b4b4r07/vim-hcl'
-Plug 'posva/vim-vue'
-Plug 'LnL7/vim-nix'
-Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-scripts/argtextobj.vim'
-Plug 'sainnhe/everforest'
-Plug 'ayu-theme/ayu-vim'
-Plug 'ray-x/aurora'
-
-" The new stuff
-Plug 'Shougo/denite.nvim'
-Plug 'Shougo/defx.nvim'
-Plug '~/install/vim-choosewin'
-Plug 'tjdevries/stackmap.nvim'
-
-Plug 'rvmelkonian/move.vim'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug '~/install/vifm.vim'
-Plug 'github/copilot.vim'
-Plug '~/Devel/hector.nvim'
-Plug 'catppuccin/nvim'
-Plug 'chrisbra/csv.vim'
-Plug 'ribru17/bamboo.nvim'
-
-Plug 'mfussenegger/nvim-dap', { 'for': ['typescript', 'python', 'rust'] }
-Plug 'mxsdev/nvim-dap-vscode-js', { 'for': ['typescript'] }
-Plug 'mfussenegger/nvim-dap-python', { 'for': ['python'] }
-Plug 'rcarriga/nvim-dap-ui', { 'for': ['typescript', 'python', 'rust'] }
-
-" Plugin outside ~/.vim/plugged with post-update hook
-"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-
-" Comment this out to make PlugInstall work fine again :/
-source $DOTQ_HOME/all/.config/vim/dotq/plugins.vim
-call plug#end()
+luafile $DOTQ_HOME/all/.config/nvim/dotq/config.lua
 
 source $DOTQ_HOME/all/.config/vim/dotq/denite.vim
 source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
@@ -125,8 +43,6 @@ let g:alternateExtensions_HH = "cpp,cc"
 let g:choosewin_overlay_enable = 1
 
 "  Menu items {{{1
-menu &Plugin.Scons.Latex\ template :!python -m my_scons --setup-latex<CR>
-menu &Plugin.&Switch :A<CR>
 menu &Plugin.&Colors.Mustang :runtime worth_colors/mustang.vim<CR>
 menu &Plugin.&Colors.Lucius :color lucius<CR>
 menu &Plugin.&Colors.Sand :runtime worth_colors/sand.vim<CR>
