@@ -1,0 +1,32 @@
+{
+	"$schema": "https://lnav.org/schemas/format-v1.schema.json",
+	"goa_cloudwatch": {
+		"title": "Goa CloudWatch",
+		"multiline": false,
+		"json": true,
+        "level-field" : "level",
+		"body-field": "message",
+		"timestamp-field": "timestamp",
+		"value": {
+			"level": { "kind" : "string", "identifier" : true },
+			"timestamp": { "kind" : "integer", "identifier" : false },
+			"PRIORITY": { "kind" : "string", "identifier" : false },
+			"SYSLOG_FACILITY": { "kind" : "string", "identifier" : true },
+			"SYSLOG_IDENTIFIER": { "kind" : "string", "identifier" : true },
+			"_PID": { "kind" : "integer", "identifier" : false },
+			"host": { "kind" : "string", "identifier" : true },
+			"message": { "kind" : "string", "identifier" : false },
+			"context": { "kind" : "integer", "identifier" : true },
+			"rest": { "kind" : "string", "identifier" : false },
+			"trace": { "kind" : "string", "identifier" : false }
+		},
+		"line-format": [
+			{ "field": "level" },
+			"  ",
+			{ "field": "context" },
+			"  ",
+			{ "field": "message" },
+			"  "
+		]
+	}
+}
