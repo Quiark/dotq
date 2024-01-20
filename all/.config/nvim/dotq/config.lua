@@ -28,6 +28,7 @@ require("lazy").setup({
 'Glench/Vim-Jinja2-Syntax',
 {'rvmelkonian/move.vim', ft = 'move' },
 'chrisbra/csv.vim',
+{'tomlion/vim-solidity', lazy = true },
 
 -- color schemes
 {'junegunn/seoul256.vim', lazy = true },
@@ -46,9 +47,8 @@ require("lazy").setup({
 {'bluz71/vim-nightfly-guicolors', lazy = true },
 {'nielsmadan/harlequin', lazy = true },
 {'flazz/vim-colorschemes', lazy = true },
-{'tomlion/vim-solidity', lazy = true },
 {'atelierbram/vim-colors_atelier-schemes', lazy = true },
-{'keith/parsec.vim', lazy = true },
+-- {'keith/parsec.vim', lazy = true },
 {'NLKNguyen/papercolor-theme', lazy = true },
 {'vim-scripts/proton', lazy = true },
 {'daddye/soda.vim', lazy = true },
@@ -75,7 +75,7 @@ require("lazy").setup({
 'Shougo/defx.nvim',
 { dir = '~/install/vim-choosewin' },
 'tjdevries/stackmap.nvim',
-{'ThePrimeagen/harpoon',  branch= 'harpoon2' , dependencies =  {"nvim-lua/plenary.nvim"} },
+-- {'ThePrimeagen/harpoon',  branch= 'harpoon2' , dependencies =  {"nvim-lua/plenary.nvim"} },
 {'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }},
 
 -- local
@@ -92,19 +92,16 @@ require("lazy").setup({
 
 
 -- --- ----. Harpoon .---- --- --
+if false then
+	local harpoon = require("harpoon")
+	harpoon:setup()
 
-local harpoon = require("harpoon")
-harpoon:setup()
+	vim.keymap.set("n", ",a", function() harpoon:list():append() end)
+	vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-vim.keymap.set("n", ",a", function() harpoon:list():append() end)
-vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+	vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+	vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
+	vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
+	vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
 
-vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
-
--- --- ----. LuaLine .---- --- --
-require('lualine').setup {
-	options = { theme  = 'molokai' }
-}
+end

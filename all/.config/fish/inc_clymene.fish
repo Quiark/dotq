@@ -16,6 +16,7 @@ set -e LC_CTYPE
 set -e LC_NUMERIC
 set -x LANG 'en_US.UTF-8'
 set -x BROWSER none
+set -x REACT_EDITOR echo
 # NOTE: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
 
 ulimit -n 1024 # any normal project will hit the 256 limit
@@ -26,14 +27,6 @@ else
 	set --global hydro_color_pwd green
 end
 
-
-function vim_fstar
-	vimr --nvim -S ~/Devel/fstarvim/session.vim
-end
-
-function ktlintize
-	git diff --name-only | grep '\.kt[s"]\?$' | xargs ktlint -F --relative .
-end
 
 function nixupdate
 	#echo TODO need to fix this, it updates roots channels but thats different from romans
@@ -268,12 +261,4 @@ function debuggy
       echo "debuggy py script.py"
       echo "debuggy rust"
   end
-end
-
-hlp_register cgen_tf_login 'Log in to AWS via SSO for use with Terraform'
-function cgen_tf_login
-  # use profile cgen-tf in terraform config
-  # need to configure the AWS config profile to use the legacy approach without auto-refresh
-  # where we are not using a separate sso-session section
-  aws sso login --no-browser --profile cgen-tf
 end

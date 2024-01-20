@@ -1,5 +1,6 @@
 
 luafile $DOTQ_HOME/all/.config/nvim/dotq/config.lua
+luafile $DOTQ_HOME/all/.config/nvim/dotq/plugins.lua
 
 source $DOTQ_HOME/all/.config/vim/dotq/denite.vim
 source $DOTQ_HOME/all/.config/vim/dotq/coc.vim

@@ -11,6 +11,15 @@
 
 	  }
 	},
+	"suggest.floatConfig": {
+		"shadow": true
+	},
+	"signature.floatConfig": {
+	},
+	"floatFactory.floatConfig": {
+		"shadow": true
+	},
+	"coc.preferences.useQuickfixForLocations": true,
 	"languageserver": {
         "rust-analyzer": {
 			"command": "/Users/roman/install/rust-analyzer",
