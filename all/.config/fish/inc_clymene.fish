@@ -19,8 +19,6 @@ set -x BROWSER none
 set -x REACT_EDITOR echo
 # NOTE: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
 
-ulimit -n 1024 # any normal project will hit the 256 limit
-
 if [ (whoami) = 'root' ]
 	set --global hydro_color_pwd red
 else
@@ -125,24 +123,6 @@ function dotpdf
 	set name $argv[1]
 	dot -Tpdf $name.dot -o $name.pdf
 	open $name.pdf
-end
-
-# This is for Voltron, for use with get-cookie.sh
-# TODO put get-cookie here so it can be used for other projects
-# TODO make script that parses key=val, key1=val2 into JSON
-function carl
-	set path $argv[1]
-	set CSRF (grep X-CSRF-TOKEN curl_login.txt | tr -d '\n\r')
-	curl -b curl_cookies.txt $PROXY -H "$CSRF" -H 'Content-type: application/json' $URL/$path $argv[2..-1] | tee curl_last.txt | jq
-end
-
-function carl_login
-	if set -q URL; and set -q USERNAME; and set -q PASSWORD
-		# ok
-	else
-		echo Need to set \$URL, \$USERNAME, \$PASSWORD
-	end
-	curl $URL/login -X POST $PROXY --data '{"username":"'$USERNAME'", "password":"'$PASSWORD'"}' -H 'Content-Type:application/json' -c curl_cookies.txt -i -s | tee curl_login.txt
 end
 
 

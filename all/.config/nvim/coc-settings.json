@@ -6,11 +6,6 @@
 	"diagnostic": {
 	  "level": "warning"
 	},
-	"python": {
-	  "analysis": {
-
-	  }
-	},
 	"suggest.floatConfig": {
 		"shadow": true
 	},
