@@ -2,7 +2,7 @@
 	name = Roman Plášil
 	email = me@rplasil.name
 [core]
-	editor = vim
+	editor = nvim
 	excludesfile = /Users/roman/.gitignore_global
 	autocrlf = input
 	pager = diff-so-fancy | less --tabs=4 -RFX

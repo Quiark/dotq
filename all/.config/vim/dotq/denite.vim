@@ -86,7 +86,7 @@ call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
 
 
 function! s:is_ignore_window(winnr)
-  let ignore_filtype = ["unite", "vimfiler", "vimshell", "nerdtree", "denite", "defx", "qf"]
+  let ignore_filtype = ["unite", "vimfiler", "vimshell", "nerdtree", "denite", "defx", "qf", "mark_view"]
   return index(ignore_filtype, getbufvar(winbufnr(a:winnr), "&filetype")) != -1
 endfunction
 
@@ -235,6 +235,10 @@ let g:dotq_menus.debug = [
 	\ [ 'Start debugging', 'Dap'],
 	\ [ 'Stop debugging', 'DapStop'],
 	\ ]
+
+let g:dotq_menus.other = [
+	\ [ 'Color scheme to Vifm', 'call vifm#colorconv#convert()' ],
+	\]
 
 
 func! s:to_cmd(item)

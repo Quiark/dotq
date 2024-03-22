@@ -84,8 +84,31 @@ vim.api.nvim_set_keymap('n', ',ww', '<cmd>lua _G.cycler_wins.cycle_size(false)<C
 
 -- --- ----. File mark viewer  .---- --- --
 -- Function to get all mark details
+-- TODO may need a feature to save / load / session mgmt bectaue the file marks are apparently global
 _G.mark_view = {}
 _G.mark_view.supported_marks = {'G', 'C', 'R', 'L', 'H', 'T', 'N', 'S'}
+
+function getLastTwoSegments(path)
+    -- Split the path into segments
+    local segments = {}
+    for segment in string.gmatch(path, "[^/]+") do
+        table.insert(segments, segment)
+    end
+
+    -- Get the last two segments
+    local lastSegments = {}
+    if #segments >= 2 then
+        table.insert(lastSegments, segments[#segments - 1])
+        table.insert(lastSegments, segments[#segments])
+    elseif #segments == 1 then
+        table.insert(lastSegments, segments[1])
+    end
+
+    -- Join the last two segments with '/'
+    --return table.concat(lastSegments, '/')
+	return lastSegments
+end
+
 
 _G.mark_view.get_marks = function ()
   local lines = {}
@@ -97,7 +120,12 @@ _G.mark_view.get_marks = function ()
   ]]--
   for _, m in ipairs(_G.mark_view.supported_marks) do
 	  local row, col, buffer, buffername = unpack(vim.api.nvim_get_mark(m, {}))
-	  local last_seg = buffername:match("^.+[/\\](.+)$") or buffername
+	  --local last_seg = buffername:match("^.+[/\\](.+)$") or buffername
+	  local segments = getLastTwoSegments(buffername)
+	  local last_seg = segments[2]
+	  if segments[2]:match('index.[tsxjhml]*') then
+		  last_seg = segments[1] .. '/' .. segments[2]
+	  end
 	  table.insert(lines, ' ' .. m .. '  ' .. last_seg)
   end
   return lines
@@ -116,12 +144,21 @@ _G.mark_view.open_marks_window = function ()
 
   local buf
   if existing_buf then
-	  return existing_buf
+	  buf = existing_buf
   else
     -- Create a buffer if it doesn't exist
     buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_name(buf, "marks_list")
   end
+
+  -- now we find if there is a window with this buffer
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+	  if vim.api.nvim_win_get_buf(win) == buf then
+		  return buf
+	  end
+  end
+
+
   local oldwin = vim.api.nvim_get_current_win()
 
   -- go to the leftmost window, not working maybe because async?
@@ -137,8 +174,8 @@ _G.mark_view.open_marks_window = function ()
   vim.api.nvim_win_set_option(win, 'number', false)
   vim.api.nvim_win_set_option(win, 'relativenumber', false)
   vim.api.nvim_win_set_height(win, #_G.mark_view.supported_marks)
-  vim.api.nvim_win_set_option(win, 'buftype', 'nofile')
-  vim.api.nvim_win_set_option(win, 'noswapfile', true)
+  vim.api.nvim_buf_set_option(0, 'swapfile', false)
+  vim.api.nvim_buf_set_option(0, 'filetype', 'mark_view')
 
   vim.api.nvim_set_current_win(oldwin)
 

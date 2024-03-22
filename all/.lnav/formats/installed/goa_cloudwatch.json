@@ -14,6 +14,7 @@
 			"SYSLOG_IDENTIFIER": { "kind" : "string", "identifier" : true },
 			"message": { "kind" : "string", "identifier" : false },
 			"context": { "kind" : "integer", "identifier" : true },
+			"module": { "kind" : "integer", "identifier" : true },
 			"rest": { "kind" : "string", "identifier" : false },
 			"trace": { "kind" : "string", "identifier" : false }
 		},
@@ -27,6 +28,7 @@
 			{ "field": "context" },
 			"]  ",
 			{ "field": "SYSLOG_IDENTIFIER" },
+			{ "field": "module" },
 			":  ",
 			{ "field": "message" },
 			" ",

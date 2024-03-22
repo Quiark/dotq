@@ -242,3 +242,43 @@ function debuggy
       echo "debuggy rust"
   end
 end
+
+function run_commitwatch
+	cd ~/AI/hector.ai/
+	set ENVPATH (poetry env info -p)
+	$ENVPATH/bin/python ./commitwatch.py
+end
+
+function run_searchagent
+	cd ~/AI/hector.ai/
+	set ENVPATH (poetry env info -p)
+	$ENVPATH/bin/python ./search_agent.py
+end
+
+function env_chatgpt
+	set -gx OPENAI_API_KEY (cat ~/.secrets/openai.txt)
+	cd ~/AI/chatgpt-cli/
+	. ../env311/bin/activate.fish
+end
+
+function run_chatgpt_shell
+	# if it looks stupid but works, it's not stupid
+	tmux new-window -n chatgpt 'env_chatgpt; fish'
+end
+
+function run_cloud_logs
+	# if no arg, display error
+	if [ (count $argv) -eq 0 ]
+		echo "Usage: run_cloud_logs <group>"
+		return
+	end
+	# will use hardcoded AWS credentials to access logs anyway
+	~/install/awstail/target/release/awstail -r ap-southeast-1 -s logs -g $argv -w 10s -j | lnav
+end
+
+hlp_register androidenv "Set Android development env variables"
+function androidenv
+	set -gx ANDROID_HOME ~/Library/Android/sdk
+	set -gx PATH $PATH $ANDROID_HOME/tools $ANDROID_HOME/platform-tools
+end
+
