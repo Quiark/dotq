@@ -238,6 +238,7 @@ let g:dotq_menus.debug = [
 
 let g:dotq_menus.other = [
 	\ [ 'Color scheme to Vifm', 'call vifm#colorconv#convert()' ],
+	\ [ 'Resync syntax', 'syntax sync fromstart' ],
 	\]
 
 
@@ -246,7 +247,7 @@ func! s:to_cmd(item)
 endfunc
 
 let g:dotq_menus.colors = map([
-      \ 'madeofcode', 'pink-moon', 'hydrangea', 'japaneque', 'pulumi', 'tender', 'everforest', 'nord',
+      \ 'madeofcode', 'pink-moon', 'hydrangea', 'japaneque', 'tender', 'everforest', 'nord',
       \ 'aurora', 'miramare', 'luna', 'gotham', 'deus', 'rootwater', 'rigel', 'deus', 'ayu', 'pencil',
         \ 'lyla', 'madrid', 'kanagawa', 'nightfox', 'nightfly', 
         \ 'tokyonight', 'tokyonight-storm', 'tokyonight-day', 'tokyonight-night', 'tokyonight-moon',

@@ -1,9 +1,13 @@
 
 luafile $DOTQ_HOME/all/.config/nvim/dotq/config.lua
-luafile $DOTQ_HOME/all/.config/nvim/dotq/plugins.lua
+" luafile $DOTQ_HOME/all/.config/nvim/dotq/plugins.lua
 
 source $DOTQ_HOME/all/.config/vim/dotq/denite.vim
-source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
+if $NVIM_NATIVE_LSP
+	" all in Lua
+else
+	source $DOTQ_HOME/all/.config/vim/dotq/coc.vim
+endif
 source $DOTQ_HOME/all/.config/nvim/dotq/debugging.vim
 
 " can be used for debugging
@@ -15,6 +19,7 @@ source $DOTQ_HOME/all/.config/nvim/dotq/debugging.vim
 let g:fstar_path = 'mono ~/Software/FStar/bin/fstar.exe'
 
 set t_vb=
+set noequalalways
 
 tmap <Esc> <C-\><C-N>
 map <C-C> "+y

@@ -1,4 +1,10 @@
--- This file is reloadable, doesn't  contain list of plugins actually.
+-- This file is reloadable, doesn't contain list of plugins actually.
+
+qroot.lsp = require('dotq.lsp')
+qroot.mason = require('dotq.mason')
+qroot.cmp = require('dotq.cmp')
+qroot.treesitter = require('dotq.treesitter')
+qroot.il = require('dotq.illuminate')
 
 -- --- ----. LuaLine .---- --- --
 local function smart_filename()
@@ -78,9 +84,30 @@ _G.cycler_wins.cycle_size = function (hor)
   end
 end
 
+_G.cycler_wins.cycle_current_and_size = function (direction)
+	local dirs = {
+		left = { 'h', 'w' },
+		right = { 'l', 'w' },
+		up = { 'k', 'h' },
+		down = { 'j', 'h' } 
+	}
+	local dir, hor = unpack(dirs[direction])
+	-- vim.cmd('normal <C-W><C-' .. dirs[direction] .. '>')
+
+	print("<C-W>" .. dir .. ",w" .. hor)
+  vim.cmd('wincmd ' .. dir)
+	--vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-W>" .. dir .. ",w" .. hor , true, true, true), "n", false)
+	--vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(',w' .. hor, true, true, true), "n", false)
+	-- no worky because previous cmd is async
+	cycler_wins.cycle_size(direction == 'up' or direction == 'down')
+end
 
 vim.api.nvim_set_keymap('n', ',wh', '<cmd>lua _G.cycler_wins.cycle_size(true)<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', ',ww', '<cmd>lua _G.cycler_wins.cycle_size(false)<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-N>h', '<cmd>lua _G.cycler_wins.cycle_current_and_size("left")<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-N>l', '<cmd>lua _G.cycler_wins.cycle_current_and_size("right")<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-N>k', '<cmd>lua _G.cycler_wins.cycle_current_and_size("up")<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-N>j', '<cmd>lua _G.cycler_wins.cycle_current_and_size("down")<CR>', { noremap = true, silent = true })
 
 -- --- ----. File mark viewer  .---- --- --
 -- Function to get all mark details
@@ -149,13 +176,22 @@ _G.mark_view.open_marks_window = function ()
     -- Create a buffer if it doesn't exist
     buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_name(buf, "marks_list")
+
+    vim.cmd('hi MarksCharG guifg=#33aa44')
+    vim.cmd('hi MarksCharC guifg=#aa4433')
+    vim.cmd('hi MarksCharR guifg=#3344dd')
+    vim.cmd('hi MarksCharL guifg=#9933dd')
+    vim.cmd('hi MarksCharH guifg=#aa9944')
+    vim.cmd('hi MarksCharT guifg=#3399aa')
+    vim.cmd('hi MarksCharN guifg=#aa7744')
+    vim.cmd('hi MarksCharS guifg=#7711aa')
   end
 
   -- now we find if there is a window with this buffer
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-	  if vim.api.nvim_win_get_buf(win) == buf then
-		  return buf
-	  end
+    if vim.api.nvim_win_get_buf(win) == buf then
+      return buf
+    end
   end
 
 
@@ -176,6 +212,15 @@ _G.mark_view.open_marks_window = function ()
   vim.api.nvim_win_set_height(win, #_G.mark_view.supported_marks)
   vim.api.nvim_buf_set_option(0, 'swapfile', false)
   vim.api.nvim_buf_set_option(0, 'filetype', 'mark_view')
+
+  vim.cmd('syntax match MarksCharG /^ G  .*$/')
+  vim.cmd('syntax match MarksCharC /^ C  .*$/')
+  vim.cmd('syntax match MarksCharR /^ R  .*$/')
+  vim.cmd('syntax match MarksCharL /^ L  .*$/')
+  vim.cmd('syntax match MarksCharH /^ H  .*$/')
+  vim.cmd('syntax match MarksCharT /^ T  .*$/')
+  vim.cmd('syntax match MarksCharN /^ N  .*$/')
+  vim.cmd('syntax match MarksCharS /^ S  .*$/')
 
   vim.api.nvim_set_current_win(oldwin)
 

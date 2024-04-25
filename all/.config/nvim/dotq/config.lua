@@ -12,7 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
+local plugindef = {
 -- language support
 'ervandew/supertab',
 { 'dag/vim-fish', ft='fish' },
@@ -67,10 +67,8 @@ require("lazy").setup({
 'editorconfig/editorconfig-vim',
 'vim-scripts/argtextobj.vim',
 'nvim-lua/plenary.nvim',
-'github/copilot.vim',
 
 -- UI 
-{'neoclide/coc.nvim', branch= 'release'},
 'Shougo/denite.nvim',
 'Shougo/defx.nvim',
 { dir = '~/install/vim-choosewin' },
@@ -88,8 +86,114 @@ require("lazy").setup({
 {'mfussenegger/nvim-dap-python',ft= { 'python' } },
 {'rcarriga/nvim-dap-ui',ft = { 'typescript', 'python', 'rust' } }
 
-}, {})
+}
 
+local qroot = {}
+_G.qroot = qroot
+_G.qutils = require("dotq.utils")
+local qutils = _G.qutils
+
+if not os.getenv('NVIM_NATIVE_LSP') then
+	-- TODO disable copilot for now when debugging LSP
+	table.insert(plugindef, 'github/copilot.vim')
+	table.insert(plugindef, { 'neoclide/coc.nvim', branch='release' })
+else
+	table.insert(plugindef, {
+		"neovim/nvim-lspconfig",
+		lazy = true,
+		cmd = { "LspInfo", "LspLog", "LspStop", "LspStart", "LspRestart" },
+		dependencies = { "mason-lspconfig.nvim", "nlsp-settings.nvim" },
+		config = function()
+			qroot.lsp.setup()
+		end,
+	})
+	table.insert(plugindef, {
+		"williamboman/mason-lspconfig.nvim",
+		cmd = { "LspInstall", "LspUninstall" },
+		config = function()
+			require("mason-lspconfig").setup()  -- (qroot.lsp.installer.setup)
+
+			-- automatic_installation is handled by lsp-manager
+			local settings = require "mason-lspconfig.settings"
+			-- settings.current.automatic_installation = false
+		end,
+		lazy = true,
+		event = "User FileOpened",
+		dependencies = "mason.nvim",
+	})
+	table.insert(plugindef, { "tamago324/nlsp-settings.nvim", cmd = "LspSettings", lazy = true })
+	table.insert(plugindef, { "nvimtools/none-ls.nvim", lazy = true })
+	table.insert(plugindef, { "williamboman/mason.nvim",
+		config = function()
+			qroot.mason.setup()
+		end,
+		cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+		build = function()
+			pcall(function()
+				require("mason-registry").refresh()
+			end)
+		end,
+		event = "User FileOpened",
+		lazy = true,
+	})
+	if false then
+		table.insert(plugindef, { "hrsh7th/nvim-cmp",
+			config = function()
+				qroot.cmp.setup()
+			end,
+			event = { "InsertEnter", "CmdlineEnter" },
+			dependencies = {
+				"cmp-nvim-lsp",
+				"cmp_luasnip",
+				"cmp-buffer",
+				"cmp-path",
+				-- "cmp-cmdline",
+			}
+		})
+		table.insert(plugindef, { "hrsh7th/cmp-nvim-lsp", lazy = true })
+		table.insert(plugindef, { "saadparwaiz1/cmp_luasnip", lazy = true })
+		table.insert(plugindef, { "hrsh7th/cmp-buffer", lazy = true })
+		table.insert(plugindef, { "hrsh7th/cmp-path", lazy = true })
+	end
+	table.insert(plugindef, { "nvim-treesitter/nvim-treesitter",
+		-- run = ":TSUpdate",
+		config = function()
+			local path = qutils.join_paths(qutils.get_runtime_dir(), "site", "pack", "lazy", "opt", "nvim-treesitter")
+			vim.opt.rtp:prepend(path) -- treesitter needs to be before nvim's runtime in rtp
+			qroot.treesitter.setup()
+		end,
+		cmd = {
+			"TSInstall",
+			"TSUninstall",
+			"TSUpdate",
+			"TSUpdateSync",
+			"TSInstallInfo",
+			"TSInstallSync",
+			"TSInstallFromGrammar",
+		},
+		event = "User FileOpened",
+	})
+	table.insert(plugindef, { "JoosepAlviste/nvim-ts-context-commentstring",
+		-- Lazy loaded by Comment.nvim pre_hook
+		lazy = true,
+	})
+	table.insert(plugindef, { "nvim-tree/nvim-web-devicons",
+		enabled = true,
+		lazy = true,
+	})
+	table.insert(plugindef, { "RRethy/vim-illuminate",
+		config = function()
+			qroot.illuminate.setup()
+		end,
+		event = "User FileOpened",
+		enabled = true
+	})
+end
+
+require("lazy").setup(plugindef, {})
+
+vim.lsp.set_log_level("debug")
+require('dotq.plugins')
 
 -- --- ----. Harpoon .---- --- --
 if false then
