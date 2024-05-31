@@ -1,11 +1,3 @@
--- This file is reloadable, doesn't contain list of plugins actually.
-
-qroot.lsp = require('dotq.lsp')
-qroot.mason = require('dotq.mason')
-qroot.cmp = require('dotq.cmp')
-qroot.treesitter = require('dotq.treesitter')
-qroot.il = require('dotq.illuminate')
-
 -- --- ----. LuaLine .---- --- --
 local function smart_filename()
 	local path = vim.fn.expand('%:p')
@@ -13,15 +5,26 @@ local function smart_filename()
 	return vim.fn.fnamemodify(path, ':~:.') .. (mod and ' [+]' or '')
 end
 
+local function project()
+	local path = vim.fn.expand('%:p')
+  -- if path contains any of the keys in projects, return the value
+  for k, v in pairs(qroot.priv.PROJECTS) do
+    -- case sensitive
+    if string.find(path, k, nil, true) ~= nil then
+      return v
+    end
+  end
+end
+
 require('lualine').setup {
 	options = { 
 		theme  = 'auto' ,
-		icons_enabled = false,
+		icons_enabled = true,
 		ignore_focus = { 'defx' },
 	},
 	sections = {
 		lualine_a = {'mode'},
-		lualine_b = { 'branch', 'diagnostics' },
+		lualine_b = { 'branch', 'diagnostics', project },
 		lualine_c = { smart_filename },
 		lualine_x = {'encoding'}, -- leave more space for filename
 		lualine_y = {'progress'},
@@ -37,7 +40,7 @@ require('lualine').setup {
 	},
 }
 
-vim.api.nvim_create_user_command('DotqLuaReload', 'luafile ~/.config/nvim/dotq/plugins.lua', { nargs = 0 })
+vim.api.nvim_create_user_command('DotqLuaReload', 'luafile ~/.config/nvim/lua/dotq/plugins.lua', { nargs = 0 })
 
 -- --- ----. Win resize (for smol laptop screens) .---- --- --
 _G.cycler_wins = {}
@@ -176,15 +179,6 @@ _G.mark_view.open_marks_window = function ()
     -- Create a buffer if it doesn't exist
     buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_name(buf, "marks_list")
-
-    vim.cmd('hi MarksCharG guifg=#33aa44')
-    vim.cmd('hi MarksCharC guifg=#aa4433')
-    vim.cmd('hi MarksCharR guifg=#3344dd')
-    vim.cmd('hi MarksCharL guifg=#9933dd')
-    vim.cmd('hi MarksCharH guifg=#aa9944')
-    vim.cmd('hi MarksCharT guifg=#3399aa')
-    vim.cmd('hi MarksCharN guifg=#aa7744')
-    vim.cmd('hi MarksCharS guifg=#7711aa')
   end
 
   -- now we find if there is a window with this buffer
@@ -208,6 +202,7 @@ _G.mark_view.open_marks_window = function ()
   -- Formatting and settings for the buffer and window
   vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
   vim.api.nvim_win_set_option(win, 'number', false)
+  vim.api.nvim_win_set_option(win, 'winfixheight', true)
   vim.api.nvim_win_set_option(win, 'relativenumber', false)
   vim.api.nvim_win_set_height(win, #_G.mark_view.supported_marks)
   vim.api.nvim_buf_set_option(0, 'swapfile', false)
@@ -221,6 +216,15 @@ _G.mark_view.open_marks_window = function ()
   vim.cmd('syntax match MarksCharT /^ T  .*$/')
   vim.cmd('syntax match MarksCharN /^ N  .*$/')
   vim.cmd('syntax match MarksCharS /^ S  .*$/')
+
+  vim.cmd('hi MarksCharG guifg=#33aa44')
+  vim.cmd('hi MarksCharC guifg=#aa4433')
+  vim.cmd('hi MarksCharR guifg=#3344dd')
+  vim.cmd('hi MarksCharL guifg=#9933dd')
+  vim.cmd('hi MarksCharH guifg=#aa9944')
+  vim.cmd('hi MarksCharT guifg=#3399aa')
+  vim.cmd('hi MarksCharN guifg=#aa7744')
+  vim.cmd('hi MarksCharS guifg=#7711aa')
 
   vim.api.nvim_set_current_win(oldwin)
 
@@ -249,6 +253,7 @@ end
 
 -- --- ----. Mappings .---- --- --
 -- vim.keymap.set(mode, key, val, opt)
+-- TODO setup key to navigate to window using choosewin
 --
 -- * to open CocOutline
 vim.api.nvim_set_keymap('n', ',l', '<cmd>Denite mark<CR>', { noremap = true, silent = true }) -- probably unused

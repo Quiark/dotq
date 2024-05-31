@@ -13,11 +13,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugindef = {
--- language support
-'ervandew/supertab',
+-- language support TODO find a better one for typescript? something based on treesitter????
+-- 'ervandew/supertab',
 { 'dag/vim-fish', ft='fish' },
 {'rust-lang/rust.vim', ft='rust' },
-'HerringtonDarkholme/yats.vim',
+-- 'HerringtonDarkholme/yats.vim', -- replaced by treesitter
 {'derekwyatt/vim-scala', ft='scala' },
 'jceb/vim-orgmode',
 {'udalov/kotlin-vim', ft='kotlin' },
@@ -59,22 +59,39 @@ local plugindef = {
 {'ribru17/bamboo.nvim', lazy = true },
 {'ray-x/starry.nvim', lazy = true },
 { "yorik1984/newpaper.nvim", priority = 1000, config = true, },
+{ 'sainnhe/edge', lazy = true },
+{ 'nyoom-engineering/oxocarbon.nvim', lazy = true },
+{ 'lunarvim/lunar.nvim', lazy = true },
 
 -- 'vim-airline/vim-airline-themes',
 -- utilities
 'tpope/vim-surround',
-'preservim/tagbar',
+-- 'preservim/tagbar', -- trying alternatives
 'editorconfig/editorconfig-vim',
-'vim-scripts/argtextobj.vim',
+-- TODO switch to Treesitter based text objects
+-- 'vim-scripts/argtextobj.vim',
 'nvim-lua/plenary.nvim',
+'github/copilot.vim',
+{ 'sindrets/diffview.nvim', lazy = true, cmd = { "DiffviewOpen", } },
 
 -- UI 
 'Shougo/denite.nvim',
 'Shougo/defx.nvim',
+'weilbith/nvim-lsp-denite',
 { dir = '~/install/vim-choosewin' },
 'tjdevries/stackmap.nvim',
 -- {'ThePrimeagen/harpoon',  branch= 'harpoon2' , dependencies =  {"nvim-lua/plenary.nvim"} },
 {'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }},
+{'nvim-treesitter/nvim-treesitter-context'},
+{'nvim-treesitter/nvim-treesitter-textobjects'},
+{
+  "otavioschwanck/arrow.nvim",
+  opts = {
+    show_icons = true,
+    leader_key = ',a', -- Recommended to be a single key
+    buffer_leader_key = ',o', -- Per Buffer Mappings
+  }
+},
 
 -- local
 { dir = '~/install/vifm.vim' },
@@ -91,11 +108,15 @@ local plugindef = {
 local qroot = {}
 _G.qroot = qroot
 _G.qutils = require("dotq.utils")
+qroot.lsp = require('dotq.lsp')
+qroot.mason = require('dotq.mason')
+qroot.cmp = require('dotq.cmp')
+qroot.treesitter = require('dotq.treesitter')
+qroot.il = require('dotq.illuminate')
+qroot.priv = require('priv.cgentium')
 local qutils = _G.qutils
 
 if not os.getenv('NVIM_NATIVE_LSP') then
-	-- TODO disable copilot for now when debugging LSP
-	table.insert(plugindef, 'github/copilot.vim')
 	table.insert(plugindef, { 'neoclide/coc.nvim', branch='release' })
 else
 	table.insert(plugindef, {
@@ -136,7 +157,7 @@ else
 		event = "User FileOpened",
 		lazy = true,
 	})
-	if false then
+	if true then
 		table.insert(plugindef, { "hrsh7th/nvim-cmp",
 			config = function()
 				qroot.cmp.setup()
@@ -152,13 +173,14 @@ else
 		})
 		table.insert(plugindef, { "hrsh7th/cmp-nvim-lsp", lazy = true })
 		table.insert(plugindef, { "saadparwaiz1/cmp_luasnip", lazy = true })
+		table.insert(plugindef, { 'hrsh7th/cmp-nvim-lsp-signature-help', lazy = true })
 		table.insert(plugindef, { "hrsh7th/cmp-buffer", lazy = true })
 		table.insert(plugindef, { "hrsh7th/cmp-path", lazy = true })
 	end
 	table.insert(plugindef, { "nvim-treesitter/nvim-treesitter",
 		-- run = ":TSUpdate",
 		config = function()
-			local path = qutils.join_paths(qutils.get_runtime_dir(), "site", "pack", "lazy", "opt", "nvim-treesitter")
+			local path = qutils.join_paths(qutils.get_runtime_dir(), "lazy", "nvim-treesitter")
 			vim.opt.rtp:prepend(path) -- treesitter needs to be before nvim's runtime in rtp
 			qroot.treesitter.setup()
 		end,
@@ -170,8 +192,11 @@ else
 			"TSInstallInfo",
 			"TSInstallSync",
 			"TSInstallFromGrammar",
+			"TSEnable",
+			"TSModuleInfo",
 		},
 		event = "User FileOpened",
+		lazy = true,
 	})
 	table.insert(plugindef, { "JoosepAlviste/nvim-ts-context-commentstring",
 		-- Lazy loaded by Comment.nvim pre_hook
@@ -183,16 +208,22 @@ else
 	})
 	table.insert(plugindef, { "RRethy/vim-illuminate",
 		config = function()
-			qroot.illuminate.setup()
+			qroot.il.setup()
 		end,
+		cmd = {
+			"IlluminatePause",
+			"IlluminateResume",
+			"IlluminateToggle",
+		},
 		event = "User FileOpened",
-		enabled = true
+		enabled = true,
+		lazy = true
 	})
 end
 
 require("lazy").setup(plugindef, {})
 
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 require('dotq.plugins')
 
 -- --- ----. Harpoon .---- --- --

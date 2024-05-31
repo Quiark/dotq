@@ -46,7 +46,7 @@ let g:alternateExtensions_CPP = "inc,h,H,HPP,hpp,cc,hh"
 let g:alternateExtensions_CC = "hh"
 let g:alternateExtensions_HH = "cpp,cc"
 
-let g:choosewin_overlay_enable = 1
+let g:choosewin_overlay_enable = 0
 
 "  Menu items {{{1
 menu &Plugin.&Colors.Mustang :runtime worth_colors/mustang.vim<CR>

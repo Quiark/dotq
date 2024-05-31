@@ -266,14 +266,10 @@ function run_chatgpt_shell
 	tmux new-window -n chatgpt 'env_chatgpt; fish'
 end
 
-function run_cloud_logs
-	# if no arg, display error
-	if [ (count $argv) -eq 0 ]
-		echo "Usage: run_cloud_logs <group>"
-		return
-	end
-	# will use hardcoded AWS credentials to access logs anyway
-	~/install/awstail/target/release/awstail -r ap-southeast-1 -s logs -g $argv -w 10s -j | lnav
+function run_overlog
+	cd ~/Devel/overlog
+	venv .
+	python overlog/server.py
 end
 
 hlp_register androidenv "Set Android development env variables"
@@ -282,3 +278,4 @@ function androidenv
 	set -gx PATH $PATH $ANDROID_HOME/tools $ANDROID_HOME/platform-tools
 end
 
+source ~/git/priv.configs/fish/cgentium.fish

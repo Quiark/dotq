@@ -4,3 +4,4 @@
 tools/photodedup/mac.lst
 tools/photodedup/nas.lst
 tools/photodedup/nas_old.lst
+all/.config/nvim/lua/priv

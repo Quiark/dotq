@@ -16,13 +16,15 @@ function M.setup()
 			}
 		}
 	})
+	lspconfig.terraformls.setup({})
+	lspconfig.tsserver.setup({})
 
 	vim.keymap.set('n', 'gh', vim.diagnostic.open_float)
 	vim.keymap.set('n', '[g', vim.diagnostic.goto_prev)
 	vim.keymap.set('n', ']g', vim.diagnostic.goto_next)
 
 	-- TODO standardise
-	vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+	-- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 	vim.keymap.set('n', '<C-W>x', ':pcl<CR>:ccl<CR>')
 
 	-- Use LspAttach autocommand to only map the following keys
@@ -35,6 +37,7 @@ function M.setup()
 
 			-- TODO remap omni complete to something else
 			-- TODO need something to show function arguments on demand
+			-- TODO search symbol, i guess others use telescope
 
 			-- Buffer local mappings.
 			-- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -47,16 +50,13 @@ function M.setup()
 			vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
 			-- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
 			-- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-			vim.keymap.set('n', '<space>wl', function()
-				print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-			end, opts)
-			vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-			vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+			--vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+			--vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
 			vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, opts)
 			vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-			vim.keymap.set('n', '<space>f', function()
-				vim.lsp.buf.format { async = true }
-			end, opts)
+			--vim.keymap.set('n', '<space>f', function()
+				--vim.lsp.buf.format { async = true }
+			--end, opts)
 		end,
 	})
 end

@@ -253,10 +253,11 @@ let g:dotq_menus.colors = map([
         \ 'tokyonight', 'tokyonight-storm', 'tokyonight-day', 'tokyonight-night', 'tokyonight-moon',
 		\ 'ghostbuster', 'mod8', 'metalheart', 'catppuccin', 'catppuccin-frappe', 'catppuccin-macchiato',
 		\ 'catppuccin-mocha', 'bamboo', 'starry', 'newpaper', 'dogrun', 'iceberg', 'melange',
+		\ 'edge', 'oxocarbon'
       \], 's:to_cmd(v:val)')
 
 let g:dotq_menus.lightcolors = map([
-			\ 'tokyonight-day', 'catppuccin-latte', 'soda', 'proton'
+			\ 'tokyonight-day', 'catppuccin-latte', 'soda', 'proton', 'seoul256-light',
       \], 's:to_cmd(v:val)')
 
 call DotqUpdateMenus()

@@ -83,6 +83,9 @@ nmap <C-_> <C-W><C-_><C-W><Bar>
 map gj 15j
 map gk 15k
 
+" maybe enable for dev with LSP only
+set number
+set signcolumn=yes
 
 " Other Plugin settings {{{1
 " Airline {{{2
