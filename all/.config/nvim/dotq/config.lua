@@ -22,7 +22,7 @@ local plugindef = {
 'jceb/vim-orgmode',
 {'udalov/kotlin-vim', ft='kotlin' },
 'pangloss/vim-javascript',
-'b4b4r07/vim-hcl',
+'b4b4r07/vim-hcl', -- TODO replace with treesitter / so I get proper indenting?
 'posva/vim-vue',
 {'LnL7/vim-nix', ft='nix' },
 'Glench/Vim-Jinja2-Syntax',
@@ -32,7 +32,7 @@ local plugindef = {
 
 -- color schemes
 {'junegunn/seoul256.vim', lazy = true },
-{'savq/melange', lazy = true },
+{'savq/melange-nvim', lazy = true },
 {'cocopon/iceberg.vim', lazy = true },
 {'mswift42/vim-themes', lazy = true },
 {'rebelot/kanagawa.nvim', lazy = true },
@@ -62,6 +62,12 @@ local plugindef = {
 { 'sainnhe/edge', lazy = true },
 { 'nyoom-engineering/oxocarbon.nvim', lazy = true },
 { 'lunarvim/lunar.nvim', lazy = true },
+{ "scottmckendry/cyberdream.nvim", lazy = false, priority = 1000, },
+{ 'AlexvZyl/nordic.nvim',  config = function()
+        require 'nordic' .load()
+    end },
+{ "NTBBloodbath/sweetie.nvim" },
+
 
 -- 'vim-airline/vim-airline-themes',
 -- utilities
@@ -77,12 +83,12 @@ local plugindef = {
 -- UI 
 'Shougo/denite.nvim',
 'Shougo/defx.nvim',
-'weilbith/nvim-lsp-denite',
+-- 'weilbith/nvim-lsp-denite', -- no worky
 { dir = '~/install/vim-choosewin' },
 'tjdevries/stackmap.nvim',
 -- {'ThePrimeagen/harpoon',  branch= 'harpoon2' , dependencies =  {"nvim-lua/plenary.nvim"} },
 {'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }},
-{'nvim-treesitter/nvim-treesitter-context'},
+-- {'nvim-treesitter/nvim-treesitter-context'},  -- still having DESYNC problems and don't like this plugin anyway
 {'nvim-treesitter/nvim-treesitter-textobjects'},
 {
   "otavioschwanck/arrow.nvim",
@@ -94,10 +100,10 @@ local plugindef = {
 },
 
 -- local
-{ dir = '~/install/vifm.vim' },
-{ dir = '~/Devel/hector.nvim' },
+-- { dir = '~/install/vifm.vim' },
+-- { dir = '~/Devel/hector.nvim' },
 
--- debugging
+-- debugging disabled to investigete DESYNC
 {'mfussenegger/nvim-dap',  ft = { 'typescript', 'python', 'rust' } },
 {'mxsdev/nvim-dap-vscode-js',ft= { 'typescript' } },
 {'mfussenegger/nvim-dap-python',ft= { 'python' } },
@@ -114,11 +120,10 @@ qroot.cmp = require('dotq.cmp')
 qroot.treesitter = require('dotq.treesitter')
 qroot.il = require('dotq.illuminate')
 qroot.priv = require('priv.cgentium')
+qroot.tmux = require('dotq.tmuxctl')
 local qutils = _G.qutils
 
-if not os.getenv('NVIM_NATIVE_LSP') then
-	table.insert(plugindef, { 'neoclide/coc.nvim', branch='release' })
-else
+if true then
 	table.insert(plugindef, {
 		"neovim/nvim-lspconfig",
 		lazy = true,
@@ -165,14 +170,14 @@ else
 			event = { "InsertEnter", "CmdlineEnter" },
 			dependencies = {
 				"cmp-nvim-lsp",
-				"cmp_luasnip",
+				-- "cmp_luasnip",
 				"cmp-buffer",
 				"cmp-path",
 				-- "cmp-cmdline",
 			}
 		})
 		table.insert(plugindef, { "hrsh7th/cmp-nvim-lsp", lazy = true })
-		table.insert(plugindef, { "saadparwaiz1/cmp_luasnip", lazy = true })
+		-- table.insert(plugindef, { "saadparwaiz1/cmp_luasnip", lazy = true })
 		table.insert(plugindef, { 'hrsh7th/cmp-nvim-lsp-signature-help', lazy = true })
 		table.insert(plugindef, { "hrsh7th/cmp-buffer", lazy = true })
 		table.insert(plugindef, { "hrsh7th/cmp-path", lazy = true })
@@ -198,27 +203,30 @@ else
 		event = "User FileOpened",
 		lazy = true,
 	})
-	table.insert(plugindef, { "JoosepAlviste/nvim-ts-context-commentstring",
+	-- DESYNC
+	-- what does this do anyway?
+	-- table.insert(plugindef, { "JoosepAlviste/nvim-ts-context-commentstring",
 		-- Lazy loaded by Comment.nvim pre_hook
-		lazy = true,
-	})
+	--	lazy = true,
+	-- })
 	table.insert(plugindef, { "nvim-tree/nvim-web-devicons",
 		enabled = true,
 		lazy = true,
 	})
-	table.insert(plugindef, { "RRethy/vim-illuminate",
-		config = function()
-			qroot.il.setup()
-		end,
-		cmd = {
-			"IlluminatePause",
-			"IlluminateResume",
-			"IlluminateToggle",
-		},
-		event = "User FileOpened",
-		enabled = true,
-		lazy = true
-	})
+	-- DESYNC big suspect
+-- 	table.insert(plugindef, { "RRethy/vim-illuminate",
+-- 		config = function()
+-- 			qroot.il.setup()
+-- 		end,
+-- 		cmd = {
+-- 			"IlluminatePause",
+-- 			"IlluminateResume",
+-- 			"IlluminateToggle",
+-- 		},
+-- 		event = "User FileOpened",
+-- 		enabled = true,
+-- 		lazy = true
+-- 	})
 end
 
 require("lazy").setup(plugindef, {})

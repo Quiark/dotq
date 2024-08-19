@@ -33,9 +33,9 @@
 			":  ",
 			{ "field": "message" },
 			" ",
-			{ "field": "rest", "default-value": "" },
+			{ "field": "rest", "default-value": "-" },
 			" ",
-			{ "field": "trace", "default-value": "" }
+			{ "field": "trace", "default-value": "-" }
 		]
 	}
 }

@@ -64,7 +64,7 @@ set novimhelp
 "colorscheme bandit
 " OK schemes: bandit, beekai, bubblegum-256-light, alduin, adaryn, darkdesert
 "colorscheme lilypink.ext
-color rootwater
+color gruvbox
 
 " Format for displaying time in file list. For example:
 " TIME_STAMP_FORMAT=%m/%d-%H:%M

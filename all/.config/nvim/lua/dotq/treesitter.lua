@@ -4,6 +4,7 @@ function M.setup()
 	require('nvim-treesitter.configs').setup {
 		ensure_installed = { "lua", "rust", "toml", "typescript", "python" },
 		auto_install = true,
+		ignore_install = { "csv" },
 		highlight = {
 			enable = true,
 			additional_vim_regex_highlighting=false,
@@ -59,12 +60,14 @@ function M.setup()
 			},
 		},
 	}
-	require'treesitter-context'.setup{
-		enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-		max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
-		mode = 'topline',
-		min_window_height = 30
-	}
+	if false then
+		require'treesitter-context'.setup{
+			enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+			max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+			mode = 'topline',
+			min_window_height = 30
+		}
+	end
 end
 
 return M

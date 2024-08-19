@@ -219,10 +219,6 @@ func! DotqUpdateMenus()
 	call denite#custom#var('flatmenu', 'menus', g:dotq_menus)
 endfunc
 
-let g:dotq_menus.coc = [
-	\ [ '[TS] Build results', 'CocCommand tsserver.watchBuild'],
-	\ ]
-
 let g:dotq_menus.hector = [
 	\ [ 'Open GPT side window', 'OpenHector'],
 	\ [ 'Send to GPT', 'AskHector'],
@@ -253,7 +249,7 @@ let g:dotq_menus.colors = map([
         \ 'tokyonight', 'tokyonight-storm', 'tokyonight-day', 'tokyonight-night', 'tokyonight-moon',
 		\ 'ghostbuster', 'mod8', 'metalheart', 'catppuccin', 'catppuccin-frappe', 'catppuccin-macchiato',
 		\ 'catppuccin-mocha', 'bamboo', 'starry', 'newpaper', 'dogrun', 'iceberg', 'melange',
-		\ 'edge', 'oxocarbon'
+		\ 'edge', 'oxocarbon', 'cyberdream'
       \], 's:to_cmd(v:val)')
 
 let g:dotq_menus.lightcolors = map([

@@ -268,7 +268,7 @@ end
 
 function run_overlog
 	cd ~/Devel/overlog
-	venv .
+	venv
 	python overlog/server.py
 end
 
