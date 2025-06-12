@@ -8,6 +8,7 @@ end
 
 local setup_dap = function () 
   dofile( os.getenv('DOTQ_HOME') .. '/all/.config/nvim/dotq/dapcfg.lua' )
+  qroot.priv.debug_configs()
 end
 
 local start_dap = function () 

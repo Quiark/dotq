@@ -47,7 +47,7 @@ local plugindef = {
 {'bluz71/vim-nightfly-guicolors', lazy = true },
 {'nielsmadan/harlequin', lazy = true },
 {'flazz/vim-colorschemes', lazy = true },
-{'atelierbram/vim-colors_atelier-schemes', lazy = true },
+-- {'atelierbram/vim-colors_atelier-schemes', lazy = true },
 -- {'keith/parsec.vim', lazy = true },
 {'NLKNguyen/papercolor-theme', lazy = true },
 {'vim-scripts/proton', lazy = true },
@@ -67,6 +67,22 @@ local plugindef = {
         require 'nordic' .load()
     end },
 { "NTBBloodbath/sweetie.nvim" },
+{
+  "Tsuzat/NeoSolarized.nvim",
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+	config = function()
+		require'NeoSolarized'.setup {
+			style = "light", -- "dark" or "light"
+			transparent = false,
+		}
+	end
+},
+{ "zootedb0t/citruszest.nvim", lazy = false, priority = 1000, },
+{ "norcalli/nvim-base16.lua", lazy = false, priority = 800 },
+{ "xero/miasma.nvim", lazy = false, priority = 1000, },
+-- { "chriskempson/base16-vim" },
+{ "wincent/base16-nvim", lazy = false, priority = 900 },
 
 
 -- 'vim-airline/vim-airline-themes',
@@ -84,7 +100,7 @@ local plugindef = {
 'Shougo/denite.nvim',
 'Shougo/defx.nvim',
 -- 'weilbith/nvim-lsp-denite', -- no worky
-{ dir = '~/install/vim-choosewin' },
+-- { dir = '~/install/vim-choosewin' }, -- bye
 'tjdevries/stackmap.nvim',
 -- {'ThePrimeagen/harpoon',  branch= 'harpoon2' , dependencies =  {"nvim-lua/plenary.nvim"} },
 {'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }},
@@ -98,6 +114,100 @@ local plugindef = {
     buffer_leader_key = ',o', -- Per Buffer Mappings
   }
 },
+{
+  "ibhagwan/fzf-lua",
+  -- optional for icon support
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    -- calling `setup` is optional for customization
+    require("fzf-lua").setup({'skim'})
+  end
+},
+{ "ii14/neorepl.nvim" },
+{
+  "aaronik/treewalker.nvim",
+  opts = {
+    highlight = false -- default is false
+  }
+},
+{
+	"nvim-neotest/neotest",
+	dependencies = {
+		"nvim-neotest/nvim-nio",
+		"nvim-lua/plenary.nvim",
+		"antoinemadec/FixCursorHold.nvim",
+		"nvim-treesitter/nvim-treesitter",
+		"rouge8/neotest-rust",
+		"nvim-neotest/neotest-jest"
+	},
+},
+{
+	"nvim-neotest/neotest-jest",
+},
+{ "rouge8/neotest-rust" },
+{
+  'saghen/blink.cmp',
+  lazy = false, -- lazy loading handled internally
+  -- optional: provides snippets for the snippet source
+  dependencies = 'rafamadriz/friendly-snippets',
+
+  -- use a release tag to download pre-built binaries
+  version = 'v0.*',
+  opts = {
+	  keymap = { preset = 'default' },
+	  completion = {
+		  documentation = {
+			  auto_show = true
+		  }
+
+	  },
+	  enabled = function () return vim.bo.buftype ~= "nofile" end,
+	  sources = {
+	  },
+	  cmdline = {
+		  -- disable cmdline completion
+		  enabled = false,
+	  },
+  }
+},
+{ "lewis6991/gitsigns.nvim", },
+{
+  "folke/snacks.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {
+    -- indent = { enabled = true },
+    -- input = { enabled = true },
+    -- notifier = { enabled = true, },
+    -- notify = { enabled = true },
+    scope = { enabled = true },
+	scratch = { enabled = true },
+    -- scroll = { enabled = true },
+    words = { enabled = true },
+  },
+  -- stylua: ignore
+  keys = {
+     { "<leader>n", function() Snacks.notifier.show_history() end, desc = "Notification History" },
+    -- { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+  },
+},
+{
+  "j-hui/fidget.nvim",
+  opts = {
+    -- options
+  },
+},
+{
+  "rest-nvim/rest.nvim",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function (_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
+      table.insert(opts.ensure_installed, "http")
+    end,
+  }
+},
+
 
 -- local
 -- { dir = '~/install/vifm.vim' },
@@ -116,12 +226,14 @@ _G.qroot = qroot
 _G.qutils = require("dotq.utils")
 qroot.lsp = require('dotq.lsp')
 qroot.mason = require('dotq.mason')
-qroot.cmp = require('dotq.cmp')
+-- qroot.cmp = require('dotq.cmp')
 qroot.treesitter = require('dotq.treesitter')
 qroot.il = require('dotq.illuminate')
 qroot.priv = require('priv.cgentium')
 qroot.tmux = require('dotq.tmuxctl')
 local qutils = _G.qutils
+
+-- to reload:    :lua package.loaded['dotq.tmuxctl'] = nil
 
 if true then
 	table.insert(plugindef, {
@@ -162,7 +274,7 @@ if true then
 		event = "User FileOpened",
 		lazy = true,
 	})
-	if true then
+	if false then -- use blink instead
 		table.insert(plugindef, { "hrsh7th/nvim-cmp",
 			config = function()
 				qroot.cmp.setup()
@@ -233,6 +345,27 @@ require("lazy").setup(plugindef, {})
 
 -- vim.lsp.set_log_level("debug")
 require('dotq.plugins')
+
+require('neotest').setup({
+	adapters = {
+		require('neotest-jest')({
+			jestCommand = "node_modules/.bin/jest --",
+			jestConfigFile = "jest.config.js",
+			-- env = { CI = true },
+			cwd = function(path)
+				return vim.fn.getcwd()
+			end,
+		}),
+		require("neotest-rust")({
+
+		})
+	}
+})
+
+-- usage for code actions etc
+require('fzf-lua').register_ui_select()
+
+require('gitsigns').setup()
 
 -- --- ----. Harpoon .---- --- --
 if false then

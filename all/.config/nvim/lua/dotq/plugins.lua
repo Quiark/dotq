@@ -258,7 +258,109 @@ end
 -- * to open CocOutline
 vim.api.nvim_set_keymap('n', ',l', '<cmd>Denite mark<CR>', { noremap = true, silent = true }) -- probably unused
 vim.api.nvim_set_keymap('n', ',wm', '<cmd>lua _G.mark_view.open_marks_list()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'go', '<cmd>FzfLua lsp_workspace_symbols<CR>', { noremap = true, silent = true })
 
 for i, m in ipairs(_G.mark_view.supported_marks) do 
 	vim.api.nvim_set_keymap('n', 'm' .. m, '<cmd>lua _G.mark_view.set_mark("'..m..'")<CR>', { noremap = true, silent = true })
 end
+
+
+vim.api.nvim_set_keymap('n', ',c', [[<cmd>lua vim.fn.setreg('+', vim.fn.expand('%:p'))<CR>]], { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('n', ',ff', '', { noremap = true, silent = true, callback = function() 
+	require'fzf-lua'.files()
+end })
+vim.api.nvim_set_keymap('n', ',fc', '', { noremap = true, silent = true, callback = function() 
+	require'fzf-lua'.colorschemes()
+end })
+vim.api.nvim_set_keymap('n', ',fd', '', { noremap = true, silent = true, callback = function() 
+	require'fzf-lua'.lsp_workspace_diagnostics()
+end })
+vim.api.nvim_set_keymap('n', ',fg', '', { noremap = true, silent = true, callback = function() 
+	require'fzf-lua'.git_files()
+end })
+-- --- ----. Predefined locations .---- --- --
+_G.predef_loc = {}
+local M = _G.predef_loc
+
+-- Function to load locations from file
+local function load_locations()
+  local file = io.open('locations.json', "r")
+  if not file then
+    print("Locations file not found.")
+    return {}
+  end
+  local content = file:read("*all")
+  file:close()
+  return vim.fn.json_decode(content)
+end
+
+-- Function to populate quickfix list
+local function populate_quickfix(locations)
+  local qf = {}
+  for _, loc in ipairs(locations) do
+    local item = {
+      filename = loc.filename,
+      text = loc.text or ""
+    }
+    if loc.lnum then item.lnum = loc.lnum end
+    if loc.col then item.col = loc.col end
+    table.insert(qf, item)
+  end
+  vim.fn.setqflist(qf)
+  --vim.fn.setqflist({}, 'a', item)
+  vim.cmd("copen")
+end
+
+-- Function to select preset and populate quickfix
+function M.select_preset()
+  local locations = load_locations()
+  local presets = {}
+  for preset, _ in pairs(locations) do
+    table.insert(presets, preset)
+  end
+
+  vim.ui.select(presets, {
+    prompt = "Select a preset:",
+    format_item = function(item)
+      return item
+    end,
+  }, function(choice)
+    if choice then
+      populate_quickfix(locations[choice])
+    end
+  end)
+end
+
+-- Define a function to get the current file name and line number, format it, and save it to a register.
+function M.save_to_register()
+  local file_name = vim.fn.expand('%:p')
+  local line_number = vim.fn.line('.')
+  -- Format the string
+  local formatted_string = string.format([[{"filename": "%s", "lnum": %d }]], file_name, line_number)
+  -- Save it to a register (let's say register x)
+  vim.fn.setreg('x', formatted_string)
+end
+
+vim.api.nvim_create_user_command('SaveLineInfoToRegister', M.save_to_register, {})
+
+-- Optionally, you can map this command to a key combination for quick access
+--vim.api.nvim_set_keymap('n', '<leader>sl', ':SaveLineInfoToRegister<CR>', { noremap = true, silent = true })
+
+-- Create the command
+vim.api.nvim_create_user_command("PredefLocations", M.select_preset, {})
+
+-- --- LSP reload --- --
+_G.lsp_reload = {
+	reload = function()
+		local bufnr = vim.api.nvim_get_current_buf()
+		vim.lsp.buf_notify(bufnr, "textDocument/didClose", {
+			textDocument = vim.lsp.util.make_text_document_params(bufnr)
+		})
+		vim.lsp.buf_notify(bufnr, "textDocument/didOpen", {
+			textDocument = vim.lsp.util.make_text_document_params(bufnr)
+		})
+		vim.lsp.semantic_tokens.force_refresh()
+		-- TODO also do tokens.stop(bufnr, lsp_client_id)
+	end
+}

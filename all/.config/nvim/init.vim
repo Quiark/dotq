@@ -64,7 +64,7 @@ menu &Plugin.&Colors.TuttiColori :color tutticolori<CR>
 
 
 " removes some of airline's slowdowns
-let g:airline_highlighting_cache=1
+"let g:airline_highlighting_cache=1
 
 " colors
 set termguicolors

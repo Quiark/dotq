@@ -84,6 +84,29 @@ call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
 	  \ [ '.git/', '.ropeproject/', '__pycache__/',
 	  \   'venv/',  '*.min.*'])
 
+"let g:last_win_nr = 1
+
+"function! storeLastWindow()
+"	if winnr('#')
+"	let g:last_win_nr = winnr('#')
+"endfun
+"
+"" Track previous window before entering a new one
+"augroup TrackWinHistory
+"  autocmd!
+"  autocmd WinEnter * call s:storeLastWindow()
+"augroup END
+
+" Function to open [file] in previous window
+"function! s:openInPrevWindow(file) abort
+"  if g:last_win_nr > 0 && g:last_win_nr <= winnr('$')
+"    execute g:last_win_nr . 'wincmd w'
+"    execute 'edit ' . a:file
+"  else
+"	wincmd w
+"    execute 'edit ' . a:file
+"  endif
+"endfunction
 
 function! s:is_ignore_window(winnr)
   let ignore_filtype = ["unite", "vimfiler", "vimshell", "nerdtree", "denite", "defx", "qf", "mark_view"]
@@ -96,19 +119,17 @@ function! OpenWithChoosewin(context)
 endfun
 
 function! s:openWithChoose(path)
-	let wins = range(1,winnr('$'))
-	let choice = choosewin#start(
-		  \ filter(wins, '!s:is_ignore_window(v:val)'),
-		  \ { 'auto_choose': 1, 'hook_enable': 0 }
-		  \ )
+	"execute normal !<C-w>p
+	wincmd p
+	execute 'e ' . a:path
 
-	if !empty(choice)
-	  let [tab, win] = choice
-	  execute 'tabnext' tab
-		"switch to window nr ...
-	  execute win 'wincmd w'  
-	  execute 'e ' . a:path
-	endif
+	"if !empty(choice)
+	"  let [tab, win] = choice
+	"  execute 'tabnext' tab
+	"	"switch to window nr ...
+	"  execute win 'wincmd w'  
+	"  execute 'e ' . a:path
+	"endif
 endfunction
 
 call denite#custom#action('buffer,directory,file,openable', 'open_with_choosewin', function('OpenWithChoosewin'))
@@ -208,7 +229,8 @@ function! s:defx_my_settings() abort
 endfunction
 
 " =========================== custom =================================
-map ,b :Denite -start-filter buffer<CR>
+"map ,b :Denite -start-filter buffer<CR>
+map ,b :FzfLua buffers<CR>
 map ,e :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
 map ,m :Denite flatmenu -winheight=10 -start-filter -buffer-name=menu<CR>
 
@@ -237,6 +259,13 @@ let g:dotq_menus.other = [
 	\ [ 'Resync syntax', 'syntax sync fromstart' ],
 	\]
 
+let g:dotq_menus.test = [
+	\ [ 'Run nearest', "lua require'neotest'.run.run()" ],
+	\ [ 'Output', "lua require'neotest'.output.open()" ],
+	\ [ 'Output panel', "lua require'neotest'.output_panel.open()" ],
+	\ [ 'Summary', "lua require'neotest'.summary.open()" ],
+	\]
+
 
 func! s:to_cmd(item)
   return [a:item, 'colorscheme ' . a:item]
@@ -253,7 +282,7 @@ let g:dotq_menus.colors = map([
       \], 's:to_cmd(v:val)')
 
 let g:dotq_menus.lightcolors = map([
-			\ 'tokyonight-day', 'catppuccin-latte', 'soda', 'proton', 'seoul256-light',
+			\ 'tokyonight-day', 'catppuccin-latte', 'soda', 'proton', 'seoul256-light', 'NeoSolarized',
       \], 's:to_cmd(v:val)')
 
 call DotqUpdateMenus()

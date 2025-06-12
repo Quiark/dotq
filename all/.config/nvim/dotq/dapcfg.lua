@@ -12,10 +12,16 @@ local HOME = '/Users/roman'
 --   dapui.close()
 -- end
 
+local install_root_dir = vim.fn.stdpath("data") .. "/mason"
+local extension_path = install_root_dir .. "/packages/codelldb/extension/"
+local codelldb_path = extension_path .. "adapter/codelldb"
+
 dap.adapters.codelldb = {
-  type = 'server',
-  host = '127.0.0.1',
-  port = 13000
+  -- type = 'server',
+  -- host = '127.0.0.1',
+  -- port = 13000
+  type = 'executable',
+  command = codelldb_path,
 }
 
 require("dap-vscode-js").setup({
@@ -42,29 +48,3 @@ local jsconf = {
 dap.configurations.typescript = jsconf
 dap.configurations.javascript = jsconf
 
-dap.configurations.rust = {
-  {
-    name = "Launch BattleDAO",
-    type = "codelldb",
-    request = "launch",
-    program = "~/CGentium/battledao/backend/target/debug/battledao",
-    cwd = HOME .. '/CGentium/battledao/backend',
-    stopOnEntry = true,
-  },
-  {
-    -- TODO need some way to manage these configs (DAP doesn't handle the cargo or variable expansion stuff)
-    name = "Tests BattleDAO",
-    type = "codelldb",
-    request = "launch",
-    program = HOME .. "/CGentium/battledao/backend/target/debug/deps/battledao-1e6a6a46b195ee46",
-    cwd = HOME .. '/CGentium/battledao/backend',
-  },
-  {
-    name = "Launch EARN",
-    type = "codelldb",
-    request = "launch",
-    program = "~/CGentium/earn/target/debug/earn-backend",
-    cwd = HOME .. '/CGentium/earn/backend',
-    stopOnEntry = true,
-  },
-}

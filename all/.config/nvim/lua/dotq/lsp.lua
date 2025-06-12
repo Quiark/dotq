@@ -17,15 +17,27 @@ function M.setup()
 		}
 	})
 	lspconfig.terraformls.setup({})
-	lspconfig.tsserver.setup({})
+	lspconfig.ts_ls.setup({})
 
 	vim.keymap.set('n', 'gh', vim.diagnostic.open_float)
-	vim.keymap.set('n', '[g', vim.diagnostic.goto_prev)
-	vim.keymap.set('n', ']g', vim.diagnostic.goto_next)
+	vim.keymap.set('n', '[g', function()
+    vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  end)
+	vim.keymap.set('n', ']g', function()
+    vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+  end)
+  -- neovim 0.11
+	-- vim.keymap.set('n', '[g', function()
+	--    vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity.ERROR })
+	--  end)
+	-- vim.keymap.set('n', ']g', function()
+	--    vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.ERROR })
+	--  end)
+
 
 	-- TODO standardise
 	-- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
-	vim.keymap.set('n', '<C-W>x', ':pcl<CR>:ccl<CR>')
+	-- vim.keymap.set('n', '<C-W>x', ':pcl<CR>:ccl<CR>')
 
 	-- Use LspAttach autocommand to only map the following keys
 	-- after the language server attaches to the current buffer

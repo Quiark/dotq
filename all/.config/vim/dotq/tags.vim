@@ -11,7 +11,7 @@ endfun
 
 " Ctrl-] doesn't work on my dvorak keyboard, so use ,t
 "map ,t <C-]>
-map ,t :execute 'Denite tag:' . expand("<cword>") . ' -immediately'<CR>
-
-map ,<space> :tn<CR>
-map ,<bs> :tp<CR>
+"map ,t :execute 'Denite tag:' . expand("<cword>") . ' -immediately'<CR>
+"
+"map ,<space> :tn<CR>
+"map ,<bs> :tp<CR>

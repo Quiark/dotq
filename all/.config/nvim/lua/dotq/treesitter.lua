@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
 	require('nvim-treesitter.configs').setup {
-		ensure_installed = { "lua", "rust", "toml", "typescript", "python" },
+		ensure_installed = { "lua", "rust", "toml", "typescript", "python", "vimdoc", "luadoc", "vim", "lua", "markdown" },
 		auto_install = true,
 		ignore_install = { "csv" },
 		highlight = {

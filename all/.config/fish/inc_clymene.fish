@@ -2,6 +2,7 @@
 # this breaks man, it needs to contain all paths
 # set -x MANPATH ~/Documents/man
 
+set -x EDITOR nvim
 set -x DOTQ_HOME ~/git/dotq
 
 # to support 'nix-shell --pure' usage with fish
@@ -48,14 +49,36 @@ function _venv_update_prompt
     function fish_prompt
 		set name (basename $DIRENV_ROOT)
 
+		# show time elapsed since last prompt (different from time command took to execute)
+		if set -q __fish_prompt_last_rendered
+			set -l current_time (date +%s)
+			set -l time_diff (math $current_time - $__fish_prompt_last_rendered)
+
+			if test $time_diff -lt 5
+				set elapsed_seg ""
+			else if test $time_diff -lt 60
+				set elapsed_seg "$time_diff""s"
+			else if test $time_diff -lt 3600
+				set elapsed_seg (math -s 2 "$time_diff / 60")"m"
+			else
+				set elapsed_seg (math -s 2 "$time_diff / 3600")"h"
+			end
+		end
+
         # Save the return status of the last command.
         set -l old_status $status
 
         # Output the venv prompt; color taken from the blue of the Python logo.
         printf "%s%s%s" (set_color 4BBE8E) ":$name: " (set_color normal)
+		if test -n "$elapsed_seg"
+			printf "%s%s%s" (set_color AB9EE8) ".$elapsed_seg"".  " (set_color normal)
+		end
 
         # Restore the return status of the previous command.
         echo "exit $old_status" | .
+
+		set -g __fish_prompt_last_rendered (date +%s)
+
         # Output the original/"old" prompt.
         _venv_old_fish_prompt
     end
@@ -82,7 +105,7 @@ function venv
 	for TRYPATH in $PATH_OPTIONS
 	  if test -e $TRYPATH/env.fish
 		  set -gx DIRENV_ROOT (realpath $TRYPATH)
-		  source $TRYPATH/env.fish
+		  source 1 $TRYPATH/env.fish
 		  set -gx DIRENV_MTIME (stat -c %Y $TRYPATH/env.fish)
 		  set -gx DIRENV_FILE (realpath $TRYPATH/env.fish)
 		  _venv_update_prompt $TRYPATH
@@ -100,13 +123,14 @@ function venv
 	  end
 
 	  # Python venv
-	  if set -q $argv[1]
+	  if test -z "$argv[1]"
 		  set name env
 	  else
 		  set name $argv[1]
 	  end
 
 	  set ACT $TRYPATH/$name/bin/activate.fish
+
 	  if test -e $ACT
 		set -gx DIRENV_ROOT (realpath $TRYPATH)
 		source $ACT
@@ -149,6 +173,7 @@ function laul
 end
 
 alias ku kubectl
+alias lg lazygit
 
 # override this builtin function because calling svn is expensive
 function fish_svn_prompt
@@ -268,7 +293,7 @@ end
 
 function run_overlog
 	cd ~/Devel/overlog
-	venv
+	. env/bin/activate.fish
 	python overlog/server.py
 end
 
@@ -278,4 +303,14 @@ function androidenv
 	set -gx PATH $PATH $ANDROID_HOME/tools $ANDROID_HOME/platform-tools
 end
 
+function run_aider
+	set -gx OPENAI_API_KEY (cat ~/.secrets/openai.txt)
+	set -gx ANTHROPIC_API_KEY (cat ~/.secrets/claude.txt)
+	set -gx VERTEXAI_LOCATION us-central1
+	set -gx VERTEXAI_PROJECT carbon-shadow-445508-p0
+	set -x GOOGLE_APPLICATION_CREDENTIALS ~/.config/gcloud/application_default_credentials.json
+	. ~/AI/aider/env/bin/activate.fish
+end
+
 source ~/git/priv.configs/fish/cgentium.fish
+

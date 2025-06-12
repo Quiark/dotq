@@ -19,7 +19,7 @@ set nowrap
 set nobackup
 set nowritebackup
 set autoindent
-set guioptions=gmrLt
+" set guioptions=gmrLt
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
@@ -60,9 +60,9 @@ nnoremap ; :
 inoremap <C-@> <Space>
 
 " Extra handy mappings for HTML {{{1
-imap <F2> <><Esc>i
-imap <F3> </a><Esc>hcl
-imap <F4> </><Esc>hi
+"imap <F2> <><Esc>i
+"imap <F3> </a><Esc>hcl
+"imap <F4> </><Esc>hi
 
 map <F8> :cn<CR>
 
@@ -84,16 +84,16 @@ map gj 15j
 map gk 15k
 
 " maybe enable for dev with LSP only
-set number
+"set number
 set signcolumn=yes
 
 " Other Plugin settings {{{1
 " Airline {{{2
 " Airline can be pretty slow, handle with care
 " Explicitly disable any auto-extensions.
-let g:airline_extensions = ['tabline']
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline_extensions = ['tabline']
+"let g:airline#extensions#whitespace#enabled = 0
+"let g:airline#extensions#tabline#enabled = 1
 
 " vim-go {{{2
 let g:go_fmt_autosave = 0
