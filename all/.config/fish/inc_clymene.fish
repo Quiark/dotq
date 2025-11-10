@@ -41,12 +41,13 @@ function zvif
 	vifm --server-name $server --remote +"cd \"$result\""
 end
 
-function _venv_update_prompt
-	# Save the current fish_prompt function as the function _old_fish_prompt.
-    functions -c fish_prompt _venv_old_fish_prompt
+# globally used customised prompt that supports displaying venv and AWS_VAULT
+# Save the current fish_prompt function as the function _old_fish_prompt.
+functions -c fish_prompt _venv_old_fish_prompt
 
-    # With the original prompt function renamed, we can override with our own.
-    function fish_prompt
+# With the original prompt function renamed, we can override with our own.
+function fish_prompt
+	if test -n "$DIRENV_ROOT"
 		set name (basename $DIRENV_ROOT)
 
 		# show time elapsed since last prompt (different from time command took to execute)
@@ -65,24 +66,26 @@ function _venv_update_prompt
 			end
 		end
 
-        # Save the return status of the last command.
-        set -l old_status $status
+		# Save the return status of the last command.
+		set -l old_status $status
 
-        # Output the venv prompt; color taken from the blue of the Python logo.
-        printf "%s%s%s" (set_color 4BBE8E) ":$name: " (set_color normal)
+		# Output the venv prompt; color taken from the blue of the Python logo.
+		printf "%s%s%s" (set_color 4BBE8E) ":$name: " (set_color normal)
 		if test -n "$elapsed_seg"
 			printf "%s%s%s" (set_color AB9EE8) ".$elapsed_seg"".  " (set_color normal)
 		end
 
-        # Restore the return status of the previous command.
-        echo "exit $old_status" | .
+		# Restore the return status of the previous command.
+		echo "exit $old_status" | .
 
 		set -g __fish_prompt_last_rendered (date +%s)
+	end
+	if test -n "$AWS_VAULT"
+		printf "%s%s%s" (set_color FFD700) "$AWS_VAULT " (set_color normal)
+	end
 
-        # Output the original/"old" prompt.
-        _venv_old_fish_prompt
-    end
-
+	# Output the original/"old" prompt.
+	_venv_old_fish_prompt
 end
 
 function _venv_maybe_reload --on-event fish_prompt
@@ -108,7 +111,6 @@ function venv
 		  source 1 $TRYPATH/env.fish
 		  set -gx DIRENV_MTIME (stat -c %Y $TRYPATH/env.fish)
 		  set -gx DIRENV_FILE (realpath $TRYPATH/env.fish)
-		  _venv_update_prompt $TRYPATH
 		  return
 	  end
 	  # TODO deprecate env.fish
@@ -118,7 +120,6 @@ function venv
 		  source $TRYPATH/direnv.fish
 		  set -gx DIRENV_MTIME (stat -c %Y $TRYPATH/direnv.fish)
 		  set -gx DIRENV_FILE (realpath $TRYPATH/direnv.fish)
-		  _venv_update_prompt $TRYPATH
 		  return
 	  end
 
@@ -310,6 +311,10 @@ function run_aider
 	set -gx VERTEXAI_PROJECT carbon-shadow-445508-p0
 	set -x GOOGLE_APPLICATION_CREDENTIALS ~/.config/gcloud/application_default_credentials.json
 	. ~/AI/aider/env/bin/activate.fish
+end
+
+function run_claudecode
+	~/AI/cc/node_modules/.bin/claude $argv
 end
 
 source ~/git/priv.configs/fish/cgentium.fish

@@ -29,6 +29,30 @@ local plugindef = {
 {'rvmelkonian/move.vim', ft = 'move' },
 'chrisbra/csv.vim',
 {'tomlion/vim-solidity', lazy = true },
+{
+  'davidgranstrom/scnvim',
+  ft = 'supercollider',
+  config = function()
+    local scnvim = require 'scnvim'
+    local map = scnvim.map
+    local map_expr = scnvim.map_expr
+    scnvim.setup {
+		keymaps = {
+			['<C-e>'] = {
+				map('editor.send_block', {'i', 'n'}),
+				map('editor.send_selection', 'x'),
+			},
+			['<CR>'] = map('postwin.toggle'),
+			['<M-CR>'] = map('postwin.toggle', 'i'),
+			['<M-L>'] = map('postwin.clear', {'n', 'i'}),
+			['<C-k>'] = map('signature.show', {'n', 'i'}),
+			['<F12>'] = map('sclang.hard_stop', {'n', 'x', 'i'}),
+			['<leader>st'] = map('sclang.start'),
+			['<leader>sk'] = map('sclang.recompile'),
+		}
+    }
+  end
+},
 
 -- color schemes
 {'junegunn/seoul256.vim', lazy = true },
@@ -112,6 +136,8 @@ local plugindef = {
     show_icons = true,
     leader_key = ',a', -- Recommended to be a single key
     buffer_leader_key = ',o', -- Per Buffer Mappings
+	separate_by_branch = false,
+	save_key = "git_root"
   }
 },
 {
@@ -207,6 +233,8 @@ local plugindef = {
     end,
   }
 },
+-- 'Groveer/plantuml.nvim',
+'aklt/plantuml-syntax',
 
 
 -- local
@@ -361,6 +389,8 @@ require('neotest').setup({
 		})
 	}
 })
+
+vim.keymap.set('n', ',t', ':Neotest run<CR>', { noremap = true, silent = true })
 
 -- usage for code actions etc
 require('fzf-lua').register_ui_select()
