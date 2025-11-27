@@ -1,7 +1,7 @@
 {
 	"$schema": "https://lnav.org/schemas/format-v1.schema.json",
-	"goa_cloudwatch": {
-		"title": "Goa CloudWatch",
+	"cloudwatch": {
+		"title": "CloudWatch",
 		"multiline": false,
 		"json": true,
         "level-field" : "level",
