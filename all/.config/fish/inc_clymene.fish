@@ -317,5 +317,11 @@ function run_claudecode
 	~/AI/cc/node_modules/.bin/claude $argv
 end
 
+hlp_register typed_grep 'Ripgrep search only in defined type. Use: typed_grep <ext> <pattern> [paths]'
+function typed_grep
+	set T $argv[1]
+	rg --type-add "$T:*.$T" -t$T $argv[2..-1]
+end
+
 source ~/git/priv.configs/fish/cgentium.fish
 

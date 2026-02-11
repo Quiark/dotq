@@ -107,7 +107,12 @@ local plugindef = {
 { "xero/miasma.nvim", lazy = false, priority = 1000, },
 -- { "chriskempson/base16-vim" },
 { "wincent/base16-nvim", lazy = false, priority = 900 },
-
+{
+  "serhez/teide.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {},
+},
 
 -- 'vim-airline/vim-airline-themes',
 -- utilities

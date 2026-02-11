@@ -1,8 +1,7 @@
 local M = {}
 
 function M.setup()
-	local lspconfig = require('lspconfig')
-	lspconfig.rust_analyzer.setup({
+	vim.lsp.config('rust_analyzer', {
 		settings = {
 			["rust-analyzer"] = {
 				assist = {
@@ -16,8 +15,8 @@ function M.setup()
 			}
 		}
 	})
-	lspconfig.terraformls.setup({})
-	lspconfig.ts_ls.setup({})
+	vim.lsp.enable('ts_ls')
+	vim.lsp.enable('pyrefly')
 
 	vim.keymap.set('n', 'gh', vim.diagnostic.open_float)
 	vim.keymap.set('n', '[g', function()

@@ -8,10 +8,10 @@ from mitmproxy import http
 from mitmproxy.connection import Server
 from mitmproxy.net.server_spec import ServerSpec
 
-API_IP = 'localhost'
-API_PORT = 8088
+API_IP = 'edifice.clandstorage.com'
+API_PORT = 443
 
-LOSSY = True
+LOSSY = False
 
 def abort_err(flow: http.HTTPFlow) -> None:
     flow.response = http.Response.make(500)
@@ -27,7 +27,8 @@ def request(flow: http.HTTPFlow) -> None:
         elif r < 0.7:
             abort_timeout(flow)
         else:
-            flow.server_connv = Server(f'http://{API_IP}:{API_PORT}')
+            #flow.server_connv = Server(f'https://{API_IP}:{API_PORT}')
+            flow.request.scheme = 'https'
             flow.request.host = API_IP
             flow.request.port = API_PORT
     else:
