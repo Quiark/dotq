@@ -5,7 +5,7 @@
 	editor = nvim
 	excludesfile = /Users/roman/.gitignore_global
 	autocrlf = input
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	#pager = diff-so-fancy | less --tabs=4 -RFX
 #	sshCommand = ssh -i ~/.ssh/roman_key_3
 
 [alias]
@@ -34,3 +34,5 @@
 	rebase = false
 [interactive]
 	diffFilter = diff-so-fancy --patch
+[diff]
+	external = difft

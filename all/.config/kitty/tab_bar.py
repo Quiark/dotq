@@ -62,6 +62,8 @@ def _draw_icon(screen: Screen, index: int) -> int:
     return screen.cursor.x
 
 
+TAB_LETTERS = ['p', 'u', 'k', 'y', 'i', 'x']
+
 def _draw_left_status(
     draw_data: DrawData,
     screen: Screen,
@@ -87,6 +89,11 @@ def _draw_left_status(
         screen.cursor.x = len(ICON)
     screen.draw(" ")
     screen.cursor.bg = tab_bg
+    
+    # Draw letter index instead of number
+    letter = TAB_LETTERS[(index - 1) % len(TAB_LETTERS)]
+    screen.draw(f"{letter}:")
+    
     draw_title(draw_data, screen, tab, index)
     if not needs_soft_separator:
         screen.draw(" ")

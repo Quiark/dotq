@@ -8,7 +8,7 @@ set -x DOTQ_HOME ~/git/dotq
 # to support 'nix-shell --pure' usage with fish
 if [ $PATH[1] = '/usr/local/bin' ]
     # normal case -- add
-    set -x PATH ~/.nix-profile/bin /nix/var/nix/profiles/default/bin $PATH $HOME/.cargo/bin
+    set -x PATH ~/.nix-profile/bin /nix/var/nix/profiles/default/bin $PATH $HOME/.cargo/bin ~/bin
 end
 #set -x NIX_PATH nixpkgs=/nix/var/nix/profiles/per-user/roman/channels/nixpkgs
 
@@ -19,6 +19,8 @@ set -x LANG 'en_US.UTF-8'
 set -x BROWSER none
 set -x REACT_EDITOR echo
 # NOTE: the ack warnings about LC_NUMERIC .. actually Unite filter matcher_fuzzy does that
+
+set -x WRK /Users/Shared/sv-roman
 
 if [ (whoami) = 'root' ]
 	set --global hydro_color_pwd red
