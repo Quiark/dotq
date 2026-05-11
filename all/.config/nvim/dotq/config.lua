@@ -12,6 +12,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+require('vim._core.ui2').enable({})
+
 local plugindef = {
 -- language support TODO find a better one for typescript? something based on treesitter????
 -- 'ervandew/supertab',
@@ -347,6 +349,20 @@ if true then
 		},
 		event = "User FileOpened",
 		lazy = true,
+	})
+	table.insert(plugindef, {
+		'MeanderingProgrammer/render-markdown.nvim',
+		dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {
+			bullet = {
+				left_pad = 1,
+				right_pad = 1
+			}
+		},
 	})
 	-- DESYNC
 	-- what does this do anyway?
