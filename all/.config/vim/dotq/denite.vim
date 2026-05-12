@@ -10,8 +10,7 @@
 "    without choosing the target window and opens here
 "  - enter folder on CR (set it as top-level)
 
-" Define mappings
-autocmd FileType denite call s:denite_my_settings()
+" Define mappings, block left here for reference
 function! s:denite_my_settings() abort
   if b:denite.buffer_name == 'menu'
     nnoremap <silent><buffer><expr> <CR>
@@ -37,52 +36,10 @@ function! s:denite_my_settings() abort
   \ denite#do_map('do_action')
 endfunction
 
-autocmd FileType denite-filter call s:denite_filter_my_settings()
-function! s:denite_filter_my_settings() abort
-  imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
-endfunction
-
-" Change file/rec command to ripgrep
-call denite#custom#var('file/rec', 'command',  ['rg', '--files', '--glob', '!.git', '--color', 'never'])
 
 
-" Change matchers.
-call denite#custom#source(
-\ 'file_mru', 'matchers', ['matcher/fuzzy', 'matcher/project_files'])
-call denite#custom#source(
-\ 'file/rec', 'matchers', ['matcher/cpsm'])
-
-" Change sorters.
-call denite#custom#source(
-\ 'file/rec', 'sorters', ['sorter/sublime'])
-
-" Change default action.
-call denite#custom#kind('file', 'default_action', 'split')
 
 
-" Ack command on grep source
-call denite#custom#var('grep', {
-	\ 'command': ['rg'],
-	\ 'default_opts': [
-	\   '--vimgrep'
-	\ ],
-	\ 'recursive_opts': [],
-	\ 'pattern_opt': [],
-	\ 'separator': ['--'],
-	\ 'final_opts': [],
-	\ })
-
-
-" Define alias
-call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-call denite#custom#var('file/rec/git', 'command',
-	  \ ['git', 'ls-files', '-co', '--exclude-standard'])
-
-
-" Change ignore_globs
-call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
-	  \ [ '.git/', '.ropeproject/', '__pycache__/',
-	  \   'venv/',  '*.min.*'])
 
 "let g:last_win_nr = 1
 
@@ -132,38 +89,10 @@ function! s:openWithChoose(path)
 	"endif
 endfunction
 
-call denite#custom#action('buffer,directory,file,openable', 'open_with_choosewin', function('OpenWithChoosewin'))
 
-function! DefxOpenWithChoosewin(context)
-	let path = a:context.targets[0]
-	call s:openWithChoose(path)
-endfun
 
-function! DefxSmartOpen(_)
-    if defx#is_directory()
-		return (defx#call_action('open_tree', 'toggle') . 'j')
-        "return defx#is_opened_tree() ?
-                "\ defx#call_action('close_tree') : defx#call_action('open_tree')
-    else
-        return defx#call_action('call', 'DefxOpenWithChoosewin')
-    endif
-endfunction
-
-function! DefxClose(context)
-    if line('.') ==# 1 || line('$') ==# 1
-        return defx#call_action('cd', ['..'])
-    endif
-	return defx#call_action('close_tree')
-endfun
-
-call defx#custom#column('icon', {
-			\ 'directory_icon': '▸',
-			\ 'opened_icon': '▾',
-			\ 'root_icon': '≡',
-			\ })
 
 " =========================== DeFX =================================
-autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
   set cursorline
 
@@ -229,17 +158,12 @@ function! s:defx_my_settings() abort
 endfunction
 
 " =========================== custom =================================
-"map ,b :Denite -start-filter buffer<CR>
 map ,b :FzfLua buffers<CR>
-map ,e :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
-map ,m :Denite flatmenu -winheight=10 -start-filter -buffer-name=menu<CR>
+map ,e :Neotree<CR>
 
-" -- menu --
+" -- menu, left here for reference, maybe use another plugin --
 let g:dotq_menus = {}
 
-func! DotqUpdateMenus()
-	call denite#custom#var('flatmenu', 'menus', g:dotq_menus)
-endfunc
 
 let g:dotq_menus.hector = [
 	\ [ 'Open GPT side window', 'OpenHector'],
@@ -285,4 +209,3 @@ let g:dotq_menus.lightcolors = map([
 			\ 'tokyonight-day', 'catppuccin-latte', 'soda', 'proton', 'seoul256-light', 'NeoSolarized',
       \], 's:to_cmd(v:val)')
 
-call DotqUpdateMenus()

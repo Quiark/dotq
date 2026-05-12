@@ -350,6 +350,30 @@ vim.api.nvim_create_user_command('SaveLineInfoToRegister', M.save_to_register, {
 -- Create the command
 vim.api.nvim_create_user_command("PredefLocations", M.select_preset, {})
 
+-- --- ----. Neo-tree .---- --- --
+require("neo-tree").setup({
+	window = {
+		mappings = {
+			["l"] = "open",
+			["<Right>"] = "open",
+			["h"] = "close_node",
+			["<Left>"] = "close_node",
+		},
+	},
+	filesystem = {
+		window = {
+			mappings = {
+				["l"] = "open",
+				["<Right>"] = "open",
+				["h"] = "close_node",
+				["<Left>"] = "close_node",
+			},
+		},
+	},
+})
+
+vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true })
+
 -- --- LSP reload --- --
 _G.lsp_reload = {
 	reload = function()

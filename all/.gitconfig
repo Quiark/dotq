@@ -35,4 +35,4 @@
 [interactive]
 	diffFilter = diff-so-fancy --patch
 [diff]
-	external = difft
+	external = difft --context 5

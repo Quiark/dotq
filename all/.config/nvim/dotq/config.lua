@@ -15,11 +15,9 @@ vim.opt.rtp:prepend(lazypath)
 require('vim._core.ui2').enable({})
 
 local plugindef = {
--- language support TODO find a better one for typescript? something based on treesitter????
 -- 'ervandew/supertab',
 { 'dag/vim-fish', ft='fish' },
 {'rust-lang/rust.vim', ft='rust' },
--- 'HerringtonDarkholme/yats.vim', -- replaced by treesitter
 {'derekwyatt/vim-scala', ft='scala' },
 'jceb/vim-orgmode',
 {'udalov/kotlin-vim', ft='kotlin' },
@@ -128,15 +126,14 @@ local plugindef = {
 { 'sindrets/diffview.nvim', lazy = true, cmd = { "DiffviewOpen", } },
 
 -- UI 
-'Shougo/denite.nvim',
-'Shougo/defx.nvim',
+-- 'Shougo/denite.nvim', --- bye
 -- 'weilbith/nvim-lsp-denite', -- no worky
 -- { dir = '~/install/vim-choosewin' }, -- bye
 'tjdevries/stackmap.nvim',
 -- {'ThePrimeagen/harpoon',  branch= 'harpoon2' , dependencies =  {"nvim-lua/plenary.nvim"} },
 {'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }},
 -- {'nvim-treesitter/nvim-treesitter-context'},  -- still having DESYNC problems and don't like this plugin anyway
-{'nvim-treesitter/nvim-treesitter-textobjects'},
+-- {'nvim-treesitter/nvim-treesitter-textobjects'},
 {
   "otavioschwanck/arrow.nvim",
   opts = {
@@ -169,7 +166,6 @@ local plugindef = {
 		"nvim-neotest/nvim-nio",
 		"nvim-lua/plenary.nvim",
 		"antoinemadec/FixCursorHold.nvim",
-		"nvim-treesitter/nvim-treesitter",
 		"rouge8/neotest-rust",
 		"nvim-neotest/neotest-jest"
 	},
@@ -231,14 +227,17 @@ local plugindef = {
   },
 },
 {
+	"nvim-neo-tree/neo-tree.nvim",
+	branch = "v3.x",
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		"MunifTanjim/nui.nvim",
+		"nvim-tree/nvim-web-devicons", -- optional, but recommended
+	},
+	lazy = false, -- neo-tree will lazily load itself
+},
+{
   "rest-nvim/rest.nvim",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function (_, opts)
-      opts.ensure_installed = opts.ensure_installed or {}
-      table.insert(opts.ensure_installed, "http")
-    end,
-  }
 },
 -- 'Groveer/plantuml.nvim',
 'aklt/plantuml-syntax',
@@ -259,10 +258,10 @@ local plugindef = {
 local qroot = {}
 _G.qroot = qroot
 _G.qutils = require("dotq.utils")
-qroot.lsp = require('dotq.lsp')
 qroot.mason = require('dotq.mason')
+qroot.lsp = require('dotq.lsp')
 -- qroot.cmp = require('dotq.cmp')
-qroot.treesitter = require('dotq.treesitter')
+--qroot.treesitter = require('dotq.treesitter')
 qroot.il = require('dotq.illuminate')
 qroot.priv = require('priv.cgentium')
 qroot.tmux = require('dotq.tmuxctl')
@@ -273,16 +272,12 @@ local qutils = _G.qutils
 if true then
 	table.insert(plugindef, {
 		"neovim/nvim-lspconfig",
-		lazy = true,
-		cmd = { "LspInfo", "LspLog", "LspStop", "LspStart", "LspRestart" },
-		dependencies = { "mason-lspconfig.nvim", "nlsp-settings.nvim" },
 		config = function()
 			qroot.lsp.setup()
 		end,
 	})
 	table.insert(plugindef, {
 		"williamboman/mason-lspconfig.nvim",
-		cmd = { "LspInstall", "LspUninstall" },
 		config = function()
 			require("mason-lspconfig").setup()  -- (qroot.lsp.installer.setup)
 
@@ -290,71 +285,22 @@ if true then
 			local settings = require "mason-lspconfig.settings"
 			-- settings.current.automatic_installation = false
 		end,
-		lazy = true,
-		event = "User FileOpened",
 		dependencies = "mason.nvim",
 	})
-	table.insert(plugindef, { "tamago324/nlsp-settings.nvim", cmd = "LspSettings", lazy = true })
 	table.insert(plugindef, { "nvimtools/none-ls.nvim", lazy = true })
 	table.insert(plugindef, { "williamboman/mason.nvim",
 		config = function()
 			qroot.mason.setup()
 		end,
-		cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
 		build = function()
 			pcall(function()
 				require("mason-registry").refresh()
 			end)
 		end,
-		event = "User FileOpened",
-		lazy = true,
-	})
-	if false then -- use blink instead
-		table.insert(plugindef, { "hrsh7th/nvim-cmp",
-			config = function()
-				qroot.cmp.setup()
-			end,
-			event = { "InsertEnter", "CmdlineEnter" },
-			dependencies = {
-				"cmp-nvim-lsp",
-				-- "cmp_luasnip",
-				"cmp-buffer",
-				"cmp-path",
-				-- "cmp-cmdline",
-			}
-		})
-		table.insert(plugindef, { "hrsh7th/cmp-nvim-lsp", lazy = true })
-		-- table.insert(plugindef, { "saadparwaiz1/cmp_luasnip", lazy = true })
-		table.insert(plugindef, { 'hrsh7th/cmp-nvim-lsp-signature-help', lazy = true })
-		table.insert(plugindef, { "hrsh7th/cmp-buffer", lazy = true })
-		table.insert(plugindef, { "hrsh7th/cmp-path", lazy = true })
-	end
-	table.insert(plugindef, { "nvim-treesitter/nvim-treesitter",
-		-- run = ":TSUpdate",
-		config = function()
-			local path = qutils.join_paths(qutils.get_runtime_dir(), "lazy", "nvim-treesitter")
-			vim.opt.rtp:prepend(path) -- treesitter needs to be before nvim's runtime in rtp
-			qroot.treesitter.setup()
-		end,
-		cmd = {
-			"TSInstall",
-			"TSUninstall",
-			"TSUpdate",
-			"TSUpdateSync",
-			"TSInstallInfo",
-			"TSInstallSync",
-			"TSInstallFromGrammar",
-			"TSEnable",
-			"TSModuleInfo",
-		},
-		event = "User FileOpened",
-		lazy = true,
 	})
 	table.insert(plugindef, {
 		'MeanderingProgrammer/render-markdown.nvim',
-		dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+		dependencies = { 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {

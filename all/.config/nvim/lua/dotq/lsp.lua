@@ -20,18 +20,11 @@ function M.setup()
 
 	vim.keymap.set('n', 'gh', vim.diagnostic.open_float)
 	vim.keymap.set('n', '[g', function()
-    vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-  end)
+		vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity.ERROR })
+	end)
 	vim.keymap.set('n', ']g', function()
-    vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-  end)
-  -- neovim 0.11
-	-- vim.keymap.set('n', '[g', function()
-	--    vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity.ERROR })
-	--  end)
-	-- vim.keymap.set('n', ']g', function()
-	--    vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.ERROR })
-	--  end)
+		vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.ERROR })
+	end)
 
 
 	-- TODO standardise
